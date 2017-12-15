@@ -1,0 +1,42 @@
+{
+    "name": "tjvb/laravel-mail-catchall",
+    "description": "Catch all mail in Laravel and redirect it to a configured email address",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias van Beek",
+            "email": "t.vanbeek@tjvb.nl",
+			"homepage" : "http://www.tjvb.nl"
+        }
+    ],
+	"require" : {
+		"php": ">=7.0"
+	},
+    "require-dev": {
+        "orchestra/testbench": "^3.5",
+        "phpmd/phpmd": "^2.6",
+        "phpunit/phpunit": "^6.5",
+        "squizlabs/php_codesniffer": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "TJVB\\MailCatchall\\": "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "TJVB\\MailCatchall\\Tests\\" : "tests/"
+        }
+    },
+    "config" : {
+        "sort-packages" : true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TJVB\\MailCatchall\\MailCatchallServiceProvider"
+            ]
+        }
+    }
+}

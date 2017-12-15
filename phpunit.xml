@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Mail Catch all Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="build/coverage" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-crap4j" target="build/coverage.crap4j.xml"/>
+        <log type="coverage-php" target="build/coverage.php"/>
+        <log type="coverage-text" target="build/coverage.txt"/>
+        <log type="junit" target="build/junit.xml"/>
+        <log type="teamcity" target="build/teamcity.txt"/>
+        <log type="testdox-html" target="build/testdox/testdox.html"/>
+        <log type="testdox-text" target="build/testdox/testdox.txt"/>
+        <log type="testdox-xml" target="build/testdox/testdox.xml"/>
+    </logging>
+    <php>
+        <env name="APP_KEY" value="base64:K8VDURhCygWl9KrdYHs+g3uvEhd3QHWFOUiq2YMZ11A="/>
+    </php>
+</phpunit>
