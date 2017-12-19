@@ -1,0 +1,33 @@
+# Laravel Mail Catchall
+[![Latest Stable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v/stable)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+[![pipeline status](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/pipeline.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
+[![coverage report](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/coverage.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
+[![License](https://poser.pugx.org/tjvb/laravel-mail-catchall/license)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+
+## Why
+The target is to catch all the mail send by Laravel and send it to a configured email adres. We found it usefull to 
+
+## Installation
+You can install the Laravel Mail Catcher with composer with the command: `composer require tjvb/laravel-mail-catchall`
+
+### Before Laravel 5.5
+Add `TJVB\MailCatchall\MailCatchallServiceProvider::class,` to the providers array in config/app.php
+
+### Publish the config file
+Publish the config file with `php artisan vendor:publish --provider="TJVB\MailCatchall\MailCatchallServiceProvider"`
+
+## Config
+Set the `MAILCATCHALL_ENABLED` env variable (most used version is to set it in the .env file) to true  
+Set the `MAILCATCHALL_RECEIVER` env variable with the email address if the receiver.
+
+## Changelog
+We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for more information.
+
+## Contributing
+You are very welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
+
+## Code of Conduct
+We have a code of conduct, and suspect everybody who want to involve in this project to respect it. [CODE OF CONDUCT](CODE-OF-CONDUCT.md)
+
+## License
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
