@@ -1,6 +1,7 @@
 <?php
 
-use TJVB\MailCatchall\Tests\TestCase;
+namespace TJVB\MailCatchall\Tests;
+
 use TJVB\MailCatchall\MailEventSubscriber;
 
 /**

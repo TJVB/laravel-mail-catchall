@@ -3,6 +3,7 @@
 namespace TJVB\MailCatchall;
 
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Support\Facades\Log;
 
 /**
  * The class to catch the mail
@@ -28,7 +29,7 @@ class MailCatcher
 
         if (!$receiver) {
             // there isn't a catch all adres configurated so we don't need to do anything
-            app('log')->error('We can\'t send the mail because the mailcatchall.receiver config value isn\'t set');
+            Log::error('We can\'t send the mail because the mailcatchall.receiver config value isn\'t set');
             return;
         }
         $event->message->setTo($receiver);
