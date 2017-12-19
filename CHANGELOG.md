@@ -7,4 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 0.1.0
 - Add an event handling to the Laravel sended mail
+- Set the receiver with an env variable
