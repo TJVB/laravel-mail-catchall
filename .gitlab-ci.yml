@@ -24,9 +24,6 @@ test:
   - php composer.phar install
   - vendor/bin/phpcs --standard=PSR2 src/
   - vendor/bin/phpmd src/ text codesize,naming,design,unusedcode
-# Sensiolabs
-  - curl -o insight.phar -s http://get.insight.sensiolabs.com/insight.phar
-  - php insight.phar analyze --no-interaction --no-ansi b2082711-40e0-4092-867d-b7c1a4ff1d51 --reference=$CI_COMMIT_SHA --user-uuid=$SENSIOLABS_USER_UUID --api-token=$SENSIOLABS_API_TOKEN --fail-condition="counts.critical > 0 or counts.major > 0"
 
 # We test PHP7.0
 test:7.0:
