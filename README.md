@@ -20,6 +20,10 @@ Publish the config file with `php artisan vendor:publish --provider="TJVB\MailCa
 Set the `MAILCATCHALL_ENABLED` env variable (most used version is to set it in the .env file) to true  
 Set the `MAILCATCHALL_RECEIVER` env variable with the email address if the receiver.
 
+## Optional config
+You have more options to change in the mailcatchall.php config file. You can enable or disable the appending of the receivers to the html or text mails.  
+The package blade views are published to your views directory (resources/views/vendor/mailcatchall) so that is the place to change the displaying.
+
 ## Changelog
 We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for more information.
 
