@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * The class to catch the mail
  *
- * @author Tobias van Beek <t.vanbeek@connexx.nl>
+ * @author Tobias van Beek <t.vanbeek@tjvb.nl>
  */
 class MailCatcher
 {
@@ -32,6 +32,11 @@ class MailCatcher
             Log::error('We can\'t send the mail because the mailcatchall.receiver config value isn\'t set');
             return;
         }
+        $originalReceivers = [
+            'to' => $event->message->getTo(),
+            'cc' => $event->message->getCc(),
+            'bcc' => $event->message->getBcc(),
+        ];
         $event->message->setTo($receiver);
         if ($event->message->getCc()) {
             // remove the cc
@@ -41,5 +46,60 @@ class MailCatcher
             //remove the bcc
             $event->message->setBcc([]);
         }
+        $this->appendReceivers($event, $originalReceivers);
+    }
+
+    /**
+     * Append the receivers to the body
+     *
+     * @param MessageSending $event
+     * @param array $receivers
+     *
+     * @return void
+     */
+    protected function appendReceivers(MessageSending $event, array $receivers)
+    {
+        $contentType = $event->message->getContentType();
+        if (\stripos($contentType, 'html') !== false) {
+            $this->appendHtmlReceiver($event, $receivers);
+            return;
+        }
+        $this->appendTextReceiver($event, $receivers);
+    }
+
+    /**
+     * Append the receivers to the html
+     *
+     * @param MessageSending $event
+     * @param array $receivers
+     *
+     * @return void
+     */
+    protected function appendHtmlReceiver(MessageSending $event, array $receivers)
+    {
+        if (!\config('mailcatchall.add_receivers_to_html')) {
+            return;
+        }
+        $body = $event->message->getBody();
+        $body = $body . \view('mailcatchall::receivers.html', ['receivers' => $receivers]);
+        $event->message->setBody($body);
+    }
+
+    /**
+     * Append the receivers to the text
+     *
+     * @param MessageSending $event
+     * @param array $receivers
+     *
+     * @return void
+     */
+    protected function appendTextReceiver(MessageSending $event, array $receivers)
+    {
+        if (!\config('mailcatchall.add_receivers_to_text')) {
+            return;
+        }
+        $body = $event->message->getBody();
+        $body = $body . \view('mailcatchall::receivers.text', ['receivers' => $receivers]);
+        $event->message->setBody($body);
     }
 }

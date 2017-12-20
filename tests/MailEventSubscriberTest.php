@@ -7,7 +7,7 @@ use TJVB\MailCatchall\MailEventSubscriber;
 /**
  * Test the Mail Event Subscriber test
  *
- * @author Tobias van Beek <t.vanbeek@connexx.nl>
+ * @author Tobias van Beek <t.vanbeek@tjvb.nl>
  *
  * @group subscriber
  */

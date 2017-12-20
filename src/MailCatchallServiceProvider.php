@@ -21,6 +21,7 @@ class MailCatchallServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/mailcatchall.php' => \config_path('mailcatchall.php'),
         ]);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'mailcatchall');
         $this->registerEventListener();
     }
 

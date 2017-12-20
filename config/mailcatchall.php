@@ -8,5 +8,9 @@ return [
 
     'receiver' => env('MAILCATCHALL_RECEIVER'),
 
-    'event' => '\Illuminate\Mail\Events\MessageSending'
+    'event' => 'Illuminate\Mail\Events\MessageSending',
+
+    'add_receivers_to_text' => true,
+
+    'add_receivers_to_html' => true,
 ];
