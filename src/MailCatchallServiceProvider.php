@@ -18,10 +18,15 @@ class MailCatchallServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'mailcatchall');
+
         $this->publishes([
             __DIR__ . '/../config/mailcatchall.php' => \config_path('mailcatchall.php'),
-        ]);
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'mailcatchall');
+        ], 'config');
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/mailcatchall'),
+        ], 'views');
+
         $this->registerEventListener();
     }
 
