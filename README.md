@@ -5,7 +5,10 @@
 [![License](https://poser.pugx.org/tjvb/laravel-mail-catchall/license)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 
 ## Why
-The target is to catch all the mail send by Laravel and send it to a configured email adres. We found it usefull to 
+The target is to catch all the mail send by Laravel and send it to a configured email adres. We found it usefull to use it for acceptance environments where the client can check all the mail that is send by the application. This also catch the email that is send by a queue runner or an artisan command.
+
+## Alternative
+If you just want to see the mail directly and don't use a queue or artisan task to send the mail. You can use the Laravel Mail Preview Driver from Mohamed Said [https://github.com/themsaid/laravel-mail-preview](https://github.com/themsaid/laravel-mail-preview) 
 
 ## Installation
 You can install the Laravel Mail Catcher with composer with the command: `composer require tjvb/laravel-mail-catchall`
