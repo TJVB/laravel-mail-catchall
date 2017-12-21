@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 1.0.0
+- Update the readme with the custom config
+- Update the views for displaying the receivers if the array key is empty or there isn't a value
+
 ## 0.2.0
 - Add the option to add the original to, cc and bcc to the email body
 - Publish the views
