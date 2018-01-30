@@ -45,5 +45,3 @@ test:7.2:
   script:
   - php composer.phar install
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
-# xebug isn't ready yet
-  allow_failure: true
