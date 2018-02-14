@@ -1,6 +1,12 @@
 {
     "name": "tjvb/laravel-mail-catchall",
     "description": "Catch all mail in Laravel and redirect it to a configured email address",
+    "keywords" : [
+        "tjvb",
+        "laravel",
+        "mail",
+        "catchall"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,7 +17,8 @@
         }
     ],
 	"require" : {
-		"php": ">=7.0"
+		"php": ">=7.0",
+		"laravel/framework" : "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*"
 	},
     "require-dev": {
         "fzaninotto/faker": "^1.7",
