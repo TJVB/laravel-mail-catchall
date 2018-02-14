@@ -29,7 +29,6 @@
         <log type="teamcity" target="build/teamcity.txt"/>
         <log type="testdox-html" target="build/testdox/testdox.html"/>
         <log type="testdox-text" target="build/testdox/testdox.txt"/>
-        <log type="testdox-xml" target="build/testdox/testdox.xml"/>
     </logging>
     <php>
         <env name="APP_KEY" value="base64:K8VDURhCygWl9KrdYHs+g3uvEhd3QHWFOUiq2YMZ11A="/>

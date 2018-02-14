@@ -16,7 +16,7 @@ class MailEventSubscriverTest extends TestCase
     /**
      * Test that it will subscrive to the event
      *
-     * @tests
+     * @test
      */
     public function it_will_subscribe_to_the_event()
     {

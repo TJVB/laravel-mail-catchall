@@ -16,7 +16,7 @@ class MailCatchallServiceProviderTest extends TestCase
     /**
      * It will register the event listener if enabled
      *
-     * @tests
+     * @test
      */
     public function it_will_register_the_event_listener_if_enabled()
     {
@@ -31,7 +31,7 @@ class MailCatchallServiceProviderTest extends TestCase
     /**
      * It will not register the event listener if disabled
      *
-     * @tests
+     * @test
      */
     public function it_will_not_register_the_event_listener_if_disabled()
     {
