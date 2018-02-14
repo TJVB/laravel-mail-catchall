@@ -34,7 +34,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that it will do nothing if catchmail isn't enabled
      *
-     * @tests
+     * @test
      */
     public function it_will_do_nothing_if_catchmail_is_not_enabled()
     {
@@ -60,7 +60,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that it will do nothing if catchmail isn't enabled
      *
-     * @tests
+     * @test
      */
     public function it_will_log_an_error_if_catchmail_is_enabled_but_no_receiver_is_set()
     {
@@ -90,7 +90,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the receiver will set as the to
      *
-     * @tests
+     * @test
      */
     public function it_will_set_the_receiver_in_the_to()
     {
@@ -124,7 +124,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the cc receivers will be removed
      *
-     * @tests
+     * @test
      */
     public function it_will_remove_the_cc_receivers()
     {
@@ -158,7 +158,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the bcc receivers will be removed
      *
-     * @tests
+     * @test
      */
     public function it_will_remove_the_bcc_receivers()
     {
@@ -192,7 +192,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the to is set in the text view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_to_in_text_view()
     {
@@ -224,7 +224,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the to is set in the html view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_to_in_html_view()
     {
@@ -256,7 +256,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the to is not set in the html view if disabled
      *
-     * @tests
+     * @test
      */
     public function it_will_not_add_original_to_in_html_view_if_disabled()
     {
@@ -287,7 +287,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the cc is set in the text view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_cc_in_text_view()
     {
@@ -319,7 +319,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the cc is set in the html view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_cc_in_html_view()
     {
@@ -351,7 +351,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the bcc is set in the text view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_bcc_in_text_view()
     {
@@ -383,7 +383,7 @@ class MailCatcherTest extends TestCase
     /**
      * Test that the bcc is set in the html view
      *
-     * @tests
+     * @test
      */
     public function it_will_add_original_bcc_in_html_view()
     {
