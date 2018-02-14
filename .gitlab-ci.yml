@@ -85,6 +85,6 @@ test:7.0_laravel5.4:
 test:7.1_laravel5.6:
   image: php:7.1
   script:
-  - php composer.phar -q remove --dev orchestra/testbench
-  - php composer.phar -q require --dev "orchestra/testbench=~3.6"
+  - php composer.phar remove --dev orchestra/testbench
+  - php composer.phar require --dev "orchestra/testbench=~3.6"
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
