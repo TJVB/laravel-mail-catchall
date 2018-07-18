@@ -30,21 +30,21 @@ test:7.0:
   image: php:7.0
   script:
   - php composer.phar -q install
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 # We test PHP7.1
 test:7.1:
   image: php:7.1
   script:
   - php composer.phar -q install
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 # We test PHP7.2
 test:7.2:
   image: php:7.2
   script:
   - php composer.phar -q install
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 # We will test the different Laravel versions
 test:7.0_laravel5.0:
@@ -52,39 +52,39 @@ test:7.0_laravel5.0:
   script:
   - php composer.phar -q remove --dev orchestra/testbench laravel/framework
   - php composer.phar -q require --dev "orchestra/testbench=~3.0"
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.1:
   image: php:7.0
   script:
   - php composer.phar -q remove --dev orchestra/testbench laravel/framework
   - php composer.phar -q require --dev "orchestra/testbench=~3.1"
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.2:
   image: php:7.0
   script:
   - php composer.phar -q remove --dev orchestra/testbench laravel/framework
   - php composer.phar -q require --dev "orchestra/testbench=~3.2"
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.3:
   image: php:7.0
   script:
   - php composer.phar -q remove --dev orchestra/testbench laravel/framework
   - php composer.phar -q require --dev "orchestra/testbench=~3.3"
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.4:
   image: php:7.0
   script:
   - php composer.phar -q remove --dev orchestra/testbench laravel/framework
   - php composer.phar -q require --dev "orchestra/testbench=~3.4"
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.6:
   image: php:7.1
   script:
   - php composer.phar remove --dev orchestra/testbench laravel/framework phpunit/phpunit
   - php composer.phar require --dev "orchestra/testbench=~3.6" phpunit/phpunit=~7.0
-  - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
