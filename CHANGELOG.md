@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- exclude test data from the zip for composer
+- move phpunit.xml to phpunit.xml.dist and ignore phpunit.xml to let other people overwrite it with there own configuration
+
+## 1.0.1
+- Add tests for the different Laravel versions 
 
 ## 1.0.0
 - Update the readme with the custom config
