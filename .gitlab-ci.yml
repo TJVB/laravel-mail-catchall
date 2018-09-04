@@ -23,7 +23,13 @@ test:
   - php composer.phar -q validate
   - php composer.phar -q install
   - vendor/bin/phpcs --standard=PSR2 src/
-  - vendor/bin/phpmd src/ text codesize,naming,design,unusedcode
+
+# We run phpmd in a seperated job that use the phar file
+phpmd:
+  image: php:7.0
+  script:
+  - wget -c http://static.phpmd.org/php/latest/phpmd.phar
+  - php phpmd.phar src/ text codesize,naming,design,unusedcode
 
 # We test PHP7.0
 test:7.0:
