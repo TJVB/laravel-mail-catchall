@@ -56,48 +56,48 @@ test:7.2:
 test:7.0_laravel5.0:
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
+  - php composer.phar -q remove --dev orchestra/testbench
   - php composer.phar -q require --dev "orchestra/testbench=~3.0"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.1:
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
+  - php composer.phar -q remove --dev orchestra/testbench
   - php composer.phar -q require --dev "orchestra/testbench=~3.1"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.2:
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
+  - php composer.phar -q remove --dev orchestra/testbench
   - php composer.phar -q require --dev "orchestra/testbench=~3.2"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.3:
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
+  - php composer.phar -q remove --dev orchestra/testbench
   - php composer.phar -q require --dev "orchestra/testbench=~3.3"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.4:
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
+  - php composer.phar -q remove --dev orchestra/testbench
   - php composer.phar -q require --dev "orchestra/testbench=~3.4"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.6:
   image: php:7.1
   script:
-  - php composer.phar remove --dev orchestra/testbench laravel/framework phpunit/phpunit
+  - php composer.phar remove --dev orchestra/testbench phpunit/phpunit
   - php composer.phar require --dev "orchestra/testbench=~3.6" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.7:
   image: php:7.1
   script:
-  - php composer.phar remove --dev orchestra/testbench laravel/framework phpunit/phpunit
+  - php composer.phar remove --dev orchestra/testbench phpunit/phpunit
   - php composer.phar require --dev "orchestra/testbench=~3.7" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
