@@ -1,11 +1,12 @@
 cache:
+  key: "%CI_COMMIT_REF_SLUG%"
   paths:
   - ~/.composer # cache the composer directory
 
 before_script:
 # Install git, the php image doesn't have installed
 - apt-get update -yqq
-- apt-get install git wget -yqq
+- apt-get install git -yqq
 
 # Install composer
 - curl -sS https://getcomposer.org/installer | php
@@ -13,6 +14,7 @@ before_script:
 - pecl install xdebug
 # Enable Xdebug
 - docker-php-ext-enable xdebug
+- docker-php-ext-enable zip
 
 test:
   image: php:7.0
