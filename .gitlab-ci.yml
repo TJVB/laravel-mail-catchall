@@ -1,9 +1,7 @@
-# Composer stores all downloaded packages in the vendor/ directory.
-# Do not use the following if the vendor/ directory is commited to
-# your git repository.
 cache:
+  key: "%CI_COMMIT_REF_SLUG%"
   paths:
-  - vendor/
+  - ~/.composer # cache the composer directory
 
 
 stages:
@@ -26,8 +24,8 @@ validate:
   stage: check
   image: php:7.0
   script:
-  - php composer.phar -q validate
-  - php composer.phar -q install
+  - php composer.phar validate
+  - php composer.phar install
   - vendor/bin/phpcs --standard=PSR2 src/
 
 # We run phpmd in a seperated job that use the phar file
@@ -35,7 +33,7 @@ phpmd:
   stage: check
   image: php:7.0
   script:
-  - curl -O http://static.phpmd.org/php/latest/phpmd.phar
+  - curl -OL http://static.phpmd.org/php/latest/phpmd.phar
   - php phpmd.phar src/ text codesize,naming,design,unusedcode
 
 # We test PHP7.0
@@ -43,7 +41,7 @@ test:7.0:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q install
+  - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
 
 # We test PHP7.1
@@ -51,7 +49,7 @@ test:7.1:
   stage: test
   image: php:7.1
   script:
-  - php composer.phar -q install
+  - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
 
 # We test PHP7.2
@@ -59,7 +57,7 @@ test:7.2:
   stage: test
   image: php:7.2
   script:
-  - php composer.phar -q install
+  - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
 
 # We will test the different Laravel versions
@@ -67,47 +65,41 @@ test:7.0_laravel5.0:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
-  - php composer.phar -q require --dev "orchestra/testbench=~3.0"
+  - php composer.phar require --dev "orchestra/testbench=~3.0"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.1:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
-  - php composer.phar -q require --dev "orchestra/testbench=~3.1"
+  - php composer.phar require --dev "orchestra/testbench=~3.1"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.2:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
-  - php composer.phar -q require --dev "orchestra/testbench=~3.2"
+  - php composer.phar require --dev "orchestra/testbench=~3.2"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.3:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
-  - php composer.phar -q require --dev "orchestra/testbench=~3.3"
+  - php composer.phar require --dev "orchestra/testbench=~3.3"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.4:
   stage: test
   image: php:7.0
   script:
-  - php composer.phar -q remove --dev orchestra/testbench laravel/framework
-  - php composer.phar -q require --dev "orchestra/testbench=~3.4"
+  - php composer.phar require --dev "orchestra/testbench=~3.4"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.6:
   stage: test
   image: php:7.1
   script:
-  - php composer.phar remove --dev orchestra/testbench laravel/framework phpunit/phpunit
   - php composer.phar require --dev "orchestra/testbench=~3.6" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
 
@@ -115,6 +107,5 @@ test:7.1_laravel5.7:
   stage: test
   image: php:7.1
   script:
-  - php composer.phar remove --dev orchestra/testbench laravel/framework phpunit/phpunit
   - php composer.phar require --dev "orchestra/testbench=~3.7" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
