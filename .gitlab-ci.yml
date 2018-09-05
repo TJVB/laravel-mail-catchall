@@ -14,7 +14,6 @@ before_script:
 - pecl install xdebug
 # Enable Xdebug
 - docker-php-ext-enable xdebug
-- docker-php-ext-enable zip
 
 test:
   image: php:7.0
