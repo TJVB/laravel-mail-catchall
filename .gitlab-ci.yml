@@ -1,7 +1,11 @@
+cache:
+  paths:
+  - ~/.composer # cache the composer directory
+
 before_script:
 # Install git, the php image doesn't have installed
 - apt-get update -yqq
-- apt-get install git -yqq
+- apt-get install git wget -yqq
 
 # Install composer
 - curl -sS https://getcomposer.org/installer | php
@@ -21,7 +25,7 @@ test:
 phpmd:
   image: php:7.0
   script:
-  - curl -O http://static.phpmd.org/php/latest/phpmd.phar
+  - curl -OL http://static.phpmd.org/php/latest/phpmd.phar
   - php phpmd.phar src/ text codesize,naming,design,unusedcode
 
 # We test PHP7.0
