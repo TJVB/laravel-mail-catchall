@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - move phpunit.xml to phpunit.xml.dist and ignore phpunit.xml to let other people overwrite it with there own configuration
 - Remove phpmd from te require dev part of composer.json and use the phar file to test it
 - Support Laravel 5.7
+- Change the version contrainces in composer.json to a version with min and max. Allow the different working orchestra/testbench versions
 
 ## 1.0.1
 - Add tests for the different Laravel versions 
