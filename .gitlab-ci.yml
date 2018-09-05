@@ -3,6 +3,11 @@ cache:
   paths:
   - ~/.composer # cache the composer directory
 
+
+stages:
+  - check
+  - test
+
 before_script:
 # Install git, the php image doesn't have installed
 - apt-get update -yqq
@@ -15,7 +20,8 @@ before_script:
 # Enable Xdebug
 - docker-php-ext-enable xdebug
 
-test:
+validate:
+  stage: check
   image: php:7.0
   script:
   - php composer.phar validate
@@ -24,6 +30,7 @@ test:
 
 # We run phpmd in a seperated job that use the phar file
 phpmd:
+  stage: check
   image: php:7.0
   script:
   - curl -OL http://static.phpmd.org/php/latest/phpmd.phar
@@ -31,6 +38,7 @@ phpmd:
 
 # We test PHP7.0
 test:7.0:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar install
@@ -38,6 +46,7 @@ test:7.0:
 
 # We test PHP7.1
 test:7.1:
+  stage: test
   image: php:7.1
   script:
   - php composer.phar install
@@ -45,6 +54,7 @@ test:7.1:
 
 # We test PHP7.2
 test:7.2:
+  stage: test
   image: php:7.2
   script:
   - php composer.phar install
@@ -52,42 +62,49 @@ test:7.2:
 
 # We will test the different Laravel versions
 test:7.0_laravel5.0:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.0"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.1:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.1"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.2:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.2"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.3:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.3"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.0_laravel5.4:
+  stage: test
   image: php:7.0
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.4"
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.6:
+  stage: test
   image: php:7.1
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.6" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.1_laravel5.7:
+  stage: test
   image: php:7.1
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.7" phpunit/phpunit=~7.0
