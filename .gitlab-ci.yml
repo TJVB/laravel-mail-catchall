@@ -43,6 +43,13 @@ test:7.2:
   - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
 
+# We test PHP7.3
+test:7.3:
+  stage: test
+  image: php:7.3
+  script:
+  - php composer.phar install
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.2_lowest:
   stage: test
