@@ -109,3 +109,10 @@ test:7.1_laravel5.7:
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.7" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
+
+test:7.2_laravel5.8:
+  stage: test
+  image: php:7.2
+  script:
+  - php composer.phar require --dev "orchestra/testbench=~3.8" phpunit/phpunit=~7.0
+  - vendor/bin/phpunit --coverage-text --colors=never
