@@ -6,8 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- Support Laravel 5.8
 
+## 2.0.0
+### Added
+- Support Laravel 5.8 (see [#4](https://gitlab.com/tjvb/laravel-mail-catchall/issues/4) )
+### Removed
+- Support Laravel 5.0 - 5.6
+- Support PHP 7.0 and 7.1
 
 ## 1.1.0
 - exclude test data from the zip for composer
