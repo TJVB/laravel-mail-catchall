@@ -21,7 +21,7 @@ class MailCatcherTest extends TestCase
      * {@inheritDoc}
      * @see \Orchestra\Testbench\TestCase::setUp()
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
         // we need it for almost every test
