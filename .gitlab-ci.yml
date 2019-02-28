@@ -10,19 +10,40 @@ stages:
   - check
   - test
 
-before_script:
-# Install git, the php image doesn't have installed
-- apt-get update -yqq
-- apt-get install git -yqq
+.before_nocov: &before_nocov
+  before_script:
+    # Install git, the php image doesn't have installed
+    - apt-get update -yqq
+    - apt-get install git -yqq
+    # Install composer
+    - curl -sS https://getcomposer.org/installer | php
 
-# Install composer
-- curl -sS https://getcomposer.org/installer | php
-# Install Xdebug
-- pecl install xdebug
-# Enable Xdebug
-- docker-php-ext-enable xdebug
+.before_xdebug: &before_xdebug
+  before_script:
+    # Install git, the php image doesn't have installed
+    - apt-get update -yqq
+    - apt-get install git -yqq
+    # Install composer
+    - curl -sS https://getcomposer.org/installer | php
+    # Install Xdebug
+    - pecl install xdebug
+    # Enable Xdebug
+    - docker-php-ext-enable xdebug
+
+.before_pcov: &before_pcov
+  before_script:
+    # Install git, the php image doesn't have installed
+    - apt-get update -yqq
+    - apt-get install git -yqq
+    # Install composer
+    - curl -sS https://getcomposer.org/installer | php
+    # Install pcov
+    - pecl install pcov
+    # Enable pcov
+    - docker-php-ext-enable pcov
 
 validate:
+  <<: *before_nocov
   stage: check
   script:
   - php composer.phar validate
@@ -38,25 +59,37 @@ phpmd:
 
 # We test PHP7.2
 test:7.2:
+  <<: *before_pcov
   stage: test
   script:
   - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
 
+# We test PHP7.3
+test:7.3:
+  <<: *before_pcov
+  stage: test
+  image: php:7.3
+  script:
+  - php composer.phar install
+  - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.2_lowest:
+  <<: *before_xdebug
   stage: test
   script:
     - php composer.phar update --prefer-lowest
     - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.2_laravel5.7:
+  <<: *before_xdebug
   stage: test
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.7" phpunit/phpunit=~7.0
   - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.2_laravel5.8:
+  <<: *before_pcov
   stage: test
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.8" phpunit/phpunit=~8.0
