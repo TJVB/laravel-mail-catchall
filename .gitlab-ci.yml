@@ -45,6 +45,17 @@ test:7.2:
 
 # We test PHP7.3
 test:7.3:
+  before_script:
+    # Install git, the php image doesn't have installed
+    - apt-get update -yqq
+    - apt-get install git -yqq
+
+    # Install composer
+    - curl -sS https://getcomposer.org/installer | php
+    # Install pcov
+    - pecl install pcov
+    # Enable pcov
+    - docker-php-ext-enable pcov
   stage: test
   image: php:7.3
   script:
