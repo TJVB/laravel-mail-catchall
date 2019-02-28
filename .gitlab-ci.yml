@@ -2,7 +2,6 @@ cache:
   key: "%CI_COMMIT_REF_SLUG%"
   paths:
   - ~/.composer # cache the composer directory
-  - vendor # the directory where we already install the composer packages
 
 # set the default docker image
 image: php:7.2
