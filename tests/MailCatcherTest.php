@@ -215,7 +215,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        } else {
+            $this->assertContains($originalTo, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -247,7 +251,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        } else {
+            $this->assertContains($originalTo, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -278,7 +286,12 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getBody());
+
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getBody());
+        } else {
+            $this->assertNotContains($originalTo, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -310,7 +323,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        } else {
+            $this->assertContains($originalCC, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -342,7 +359,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        } else {
+            $this->assertContains($originalCC, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -374,7 +395,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        } else {
+            $this->assertContains($originalBcc, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -406,7 +431,11 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        } else {
+            $this->assertContains($originalBcc, $message->getBody());
+        }
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
