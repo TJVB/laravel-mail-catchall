@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 2.0.1
+### Changed
+- Fix PHPUnit version constrains in composer.json
+- Fix compatibility with PHPUnit 7 & 8
+
 ## 2.0.0
 ### Added
 - Support Laravel 5.8 (see [#4](https://gitlab.com/tjvb/laravel-mail-catchall/issues/4) )
