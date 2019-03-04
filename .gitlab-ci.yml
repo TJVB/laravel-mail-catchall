@@ -1,5 +1,5 @@
 cache:
-  key: "%CI_COMMIT_REF_SLUG%"
+  key: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}"
   paths:
   - ~/.composer # cache the composer directory
 
@@ -14,7 +14,7 @@ stages:
   before_script:
     # Install git, the php image doesn't have installed
     - apt-get update -yqq
-    - apt-get install git -yqq
+    - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
 
@@ -22,7 +22,7 @@ stages:
   before_script:
     # Install git, the php image doesn't have installed
     - apt-get update -yqq
-    - apt-get install git -yqq
+    - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
     # Install Xdebug
@@ -34,7 +34,7 @@ stages:
   before_script:
     # Install git, the php image doesn't have installed
     - apt-get update -yqq
-    - apt-get install git -yqq
+    - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
     # Install pcov
