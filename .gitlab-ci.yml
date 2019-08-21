@@ -54,7 +54,7 @@ phpmd:
   image: phpqa/phpmd
   stage: check
   script:
-    - phpmd app/ text codesize,naming,design,unusedcode
+    - phpmd src/ text codesize,naming,design,unusedcode
 
 # We test PHP7.2
 test:7.2:
