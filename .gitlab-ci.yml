@@ -78,6 +78,8 @@ test:7.3_laravel6.0:
   stage: test
   image: php:7.3
   script:
+    - php composer.phar config minimum-stability dev
+    - php composer.phar config prefer-stable true
     - php composer.phar require --dev "orchestra/testbench=~3.9" phpunit/phpunit=~8.0
     - vendor/bin/phpunit --coverage-text --colors=never
 
@@ -107,5 +109,7 @@ test:7.2_laravel6.0:
   <<: *before_pcov
   stage: test
   script:
+    - php composer.phar config minimum-stability dev
+    - php composer.phar config prefer-stable true
     - php composer.phar require --dev "orchestra/testbench=~3.9" phpunit/phpunit=~8.0
     - vendor/bin/phpunit --coverage-text --colors=never
