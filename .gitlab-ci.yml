@@ -50,12 +50,11 @@ validate:
   - php composer.phar install
   - vendor/bin/phpcs --standard=PSR2 src/
 
-# We run phpmd in a seperated job that use the phar file
 phpmd:
+  image: phpqa/phpmd
   stage: check
   script:
-  - curl -OL http://static.phpmd.org/php/latest/phpmd.phar
-  - php phpmd.phar src/ text codesize,naming,design,unusedcode
+    - phpmd app/ text codesize,naming,design,unusedcode
 
 # We test PHP7.2
 test:7.2:
