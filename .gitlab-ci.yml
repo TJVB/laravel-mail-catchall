@@ -50,12 +50,11 @@ validate:
   - php composer.phar install
   - vendor/bin/phpcs --standard=PSR2 src/
 
-# We run phpmd in a seperated job that use the phar file
 phpmd:
+  image: phpqa/phpmd
   stage: check
   script:
-  - curl -OL http://static.phpmd.org/php/latest/phpmd.phar
-  - php phpmd.phar src/ text codesize,naming,design,unusedcode
+    - phpmd src/ text codesize,naming,design,unusedcode
 
 # We test PHP7.2
 test:7.2:
@@ -73,6 +72,14 @@ test:7.3:
   script:
   - php composer.phar install
   - vendor/bin/phpunit --coverage-text --colors=never
+
+test:7.3_laravel6.0:
+  <<: *before_pcov
+  stage: test
+  image: php:7.3
+  script:
+    - php composer.phar require --dev "orchestra/testbench=~3.9" phpunit/phpunit=~8.0
+    - vendor/bin/phpunit --coverage-text --colors=never
 
 test:7.2_lowest:
   <<: *before_xdebug
@@ -94,3 +101,11 @@ test:7.2_laravel5.8:
   script:
   - php composer.phar require --dev "orchestra/testbench=~3.8" phpunit/phpunit=~8.0
   - vendor/bin/phpunit --coverage-text --colors=never
+
+
+test:7.2_laravel6.0:
+  <<: *before_pcov
+  stage: test
+  script:
+    - php composer.phar require --dev "orchestra/testbench=~3.9" phpunit/phpunit=~8.0
+    - vendor/bin/phpunit --coverage-text --colors=never
