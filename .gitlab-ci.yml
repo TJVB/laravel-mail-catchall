@@ -48,7 +48,7 @@ validate:
   script:
   - php composer.phar validate
   - php composer.phar install
-  - vendor/bin/phpcs --standard=PSR2 src/
+  - vendor/bin/phpcs
 
 phpmd:
   image: phpqa/phpmd

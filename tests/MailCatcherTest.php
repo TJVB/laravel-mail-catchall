@@ -36,7 +36,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_do_nothing_if_catchmail_is_not_enabled()
+    public function itWillDoNothingIfCatchmailIsNotEnabled(): void
     {
         $originalConfig = \config('mailcatchall.enabled');
         \config(['mailcatchall.enabled' => false]);
@@ -62,7 +62,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_log_an_error_if_catchmail_is_enabled_but_no_receiver_is_set()
+    public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet()
     {
         $originalConfig = \config('mailcatchall.enabled');
         $originalReceiver = \config('mailcatchall.receiver');
@@ -92,7 +92,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_set_the_receiver_in_the_to()
+    public function itWillSetTheReceiverInTheTo()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -126,7 +126,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_remove_the_cc_receivers()
+    public function itWillRemoveTheCcReceivers()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -160,7 +160,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_remove_the_bcc_receivers()
+    public function itWillRemoveTheBccReceivers()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -194,7 +194,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_to_in_text_view()
+    public function itWillAddOriginalToInTextView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -230,7 +230,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_to_in_html_view()
+    public function itWillAddOriginalToInHtmlView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -266,7 +266,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_not_add_original_to_in_html_view_if_disabled()
+    public function itWillNotAddOriginalToInHtmlViewIfDisabled()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -302,7 +302,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_cc_in_text_view()
+    public function itWillAddOriginalCcInTextView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -338,7 +338,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_cc_in_html_view()
+    public function itWillAddOriginalCcInHtmlView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -374,7 +374,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_bcc_in_text_view()
+    public function itWillAddOriginalBccInTextView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -410,13 +410,13 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function it_will_add_original_bcc_in_html_view()
+    public function itWillAddOriginalBccInHtmlView()
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
         $originalReceiver = \config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalBcc= $faker->email;
+        $originalBcc = $faker->email;
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_html' => true]);
 

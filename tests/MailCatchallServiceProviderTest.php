@@ -18,7 +18,7 @@ class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
-    public function it_will_register_the_event_listener_if_enabled()
+    public function itWillRegisterTheEventListenerIfEnabled(): void
     {
         \config(['mailcatchall.enabled' => true]);
         $provider = new MailCatchallServiceProvider($this->app);
@@ -33,7 +33,7 @@ class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
-    public function it_will_not_register_the_event_listener_if_disabled()
+    public function itWillNotRegisterTheEventListenerIfDisabled(): void
     {
         \config(['mailcatchall.enabled' => false]);
         $provider = new MailCatchallServiceProvider($this->app);
