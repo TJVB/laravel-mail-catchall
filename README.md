@@ -1,8 +1,6 @@
 # Laravel Mail Catchall
-[![Latest Stable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v/stable)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 [![pipeline status](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/pipeline.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
 [![coverage report](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/coverage.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
-[![License](https://poser.pugx.org/tjvb/laravel-mail-catchall/license)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 
 ## Why
 The target is to catch all the mail send by Laravel and send it to a configured email adres. We found it usefull to use it for acceptance environments where the client can check all the mail that is send by the application. This also catch the email that is send by a queue runner or an artisan command.
