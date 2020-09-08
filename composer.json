@@ -18,7 +18,8 @@
     ],
 	"require" : {
 		"php": "~7.2.0||~7.3.0||~7.4.0",
-		"laravel/framework" : "^5.7||^5.8||^6.0||^7.0"
+		"laravel/framework" : "^5.7||^5.8||^6.0||^7.0",
+		"psr/log" : "^1.0"
 	},
     "require-dev": {
         "fzaninotto/faker": "^1.7",

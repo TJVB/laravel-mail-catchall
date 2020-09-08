@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - Be clear about the PHP 7.2, 7.3 and 7.4 support.
+- Use the Psr\Log\LoggerInterface and not the Log facade.
 
 ## 2.3.0
 ## Added
