@@ -2,6 +2,7 @@
 
 namespace TJVB\MailCatchall\Tests;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Mockery;
 use Psr\Log\LoggerInterface;
@@ -45,7 +46,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
         $messageMock = Mockery::mock(\Swift_Message::class);
@@ -77,7 +79,8 @@ class MailCatcherTest extends TestCase
         $loggerMock->shouldReceive('error')->once();
         $catcher = new MailCatcher(
             $loggerMock,
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
         $messageMock = Mockery::mock(\Swift_Message::class);
@@ -110,7 +113,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
         $messageMock = Mockery::mock(\Swift_Message::class);
@@ -147,7 +151,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
         $messageMock = Mockery::mock(\Swift_Message::class);
@@ -184,7 +189,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
         $messageMock = Mockery::mock(\Swift_Message::class);
@@ -223,7 +229,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -262,7 +269,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -300,7 +308,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -340,7 +349,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -379,7 +389,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -418,7 +429,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -457,7 +469,8 @@ class MailCatcherTest extends TestCase
 
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
-            $this->getViewFactory()
+            $this->getViewFactory(),
+            $this->getConfigRepository()
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
@@ -487,5 +500,10 @@ class MailCatcherTest extends TestCase
     private function getViewFactory(): ViewFactory
     {
         return $this->app->make(ViewFactory::class);
+    }
+
+    private function getConfigRepository(): Repository
+    {
+        return $this->app->make(Repository::class);
     }
 }
