@@ -2,6 +2,7 @@
 
 namespace TJVB\MailCatchall;
 
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Mail\Events\MessageSending;
 use Psr\Log\LoggerInterface;
 
@@ -17,10 +18,15 @@ class MailCatcher
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var Factory
+     */
+    private $viewFactory;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, Factory $viewFactory)
     {
         $this->logger = $logger;
+        $this->viewFactory = $viewFactory;
     }
 
     /**
@@ -92,7 +98,9 @@ class MailCatcher
             return;
         }
         $body = $event->message->getBody();
-        $body = $body . \view('mailcatchall::receivers.html', ['receivers' => $receivers]);
+        $body .= $this->viewFactory->make('mailcatchall::receivers.html')
+            ->with('receivers', $receivers)
+            ->render();
         $event->message->setBody($body);
     }
 
@@ -110,7 +118,9 @@ class MailCatcher
             return;
         }
         $body = $event->message->getBody();
-        $body = $body . \view('mailcatchall::receivers.text', ['receivers' => $receivers]);
+        $body .= $this->viewFactory->make('mailcatchall::receivers.text')
+            ->with('receivers', $receivers)
+            ->render();
         $event->message->setBody($body);
     }
 }
