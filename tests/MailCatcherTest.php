@@ -2,9 +2,10 @@
 
 namespace TJVB\MailCatchall\Tests;
 
+use Mockery;
+use Psr\Log\LoggerInterface;
 use TJVB\MailCatchall\MailCatcher;
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Support\Facades\Log;
 use Faker\Factory;
 
 /**
@@ -41,9 +42,9 @@ class MailCatcherTest extends TestCase
         $originalConfig = \config('mailcatchall.enabled');
         \config(['mailcatchall.enabled' => false]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
-        $messageMock = \Mockery::mock(\Swift_Message::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
+        $messageMock = Mockery::mock(\Swift_Message::class);
         $messageMock->shouldNotReceive([
             'setTo',
             'getCc',
@@ -68,16 +69,16 @@ class MailCatcherTest extends TestCase
         $originalReceiver = \config('mailcatchall.receiver');
         \config(['mailcatchall.receiver' => null]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
-        $messageMock = \Mockery::mock(\Swift_Message::class);
+        $loggerMock = $this->getLoggerMock();
+        $loggerMock->shouldReceive('error')->once();
+        $catcher = new MailCatcher($loggerMock);
+        $eventMock = Mockery::mock(MessageSending::class);
+        $messageMock = Mockery::mock(\Swift_Message::class);
         $messageMock->shouldNotReceive([
             'setTo',
             'getCc',
             'getBcc',
         ]);
-
-        Log::shouldReceive('error')->once();
 
         $eventMock->message = $messageMock;
 
@@ -100,9 +101,9 @@ class MailCatcherTest extends TestCase
         $receiver = $faker->email;
         \config(['mailcatchall.receiver' => $receiver]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
-        $messageMock = \Mockery::mock(\Swift_Message::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
+        $messageMock = Mockery::mock(\Swift_Message::class);
         $messageMock->shouldNotReceive([
             'setCc',
             'setBcc',
@@ -134,9 +135,9 @@ class MailCatcherTest extends TestCase
         $receiver = $faker->email;
         \config(['mailcatchall.receiver' => $receiver]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
-        $messageMock = \Mockery::mock(\Swift_Message::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
+        $messageMock = Mockery::mock(\Swift_Message::class);
         $messageMock->shouldNotReceive([
             'setBcc',
         ]);
@@ -168,9 +169,9 @@ class MailCatcherTest extends TestCase
         $receiver = $faker->email;
         \config(['mailcatchall.receiver' => $receiver]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
-        $messageMock = \Mockery::mock(\Swift_Message::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
+        $messageMock = Mockery::mock(\Swift_Message::class);
         $messageMock->shouldNotReceive([
             'setCc',
         ]);
@@ -204,8 +205,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_text' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'text');
@@ -240,8 +241,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_html' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'html');
@@ -275,8 +276,8 @@ class MailCatcherTest extends TestCase
         $originalTo = $faker->email;
         \config(['mailcatchall.receiver' => $receiver]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'html');
@@ -312,8 +313,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_text' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'text');
@@ -348,8 +349,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_html' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'html');
@@ -384,8 +385,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_text' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'text');
@@ -420,8 +421,8 @@ class MailCatcherTest extends TestCase
         \config(['mailcatchall.receiver' => $receiver]);
         \config(['mailcatchall.add_receivers_to_html' => true]);
 
-        $catcher = new MailCatcher();
-        $eventMock = \Mockery::mock(MessageSending::class);
+        $catcher = new MailCatcher($this->getLoggerMock());
+        $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new \Swift_Message();
         $message->setBody($faker->text, 'html');
@@ -439,5 +440,10 @@ class MailCatcherTest extends TestCase
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
+    }
+
+    private function getLoggerMock()
+    {
+        return Mockery::mock(LoggerInterface::class);
     }
 }
