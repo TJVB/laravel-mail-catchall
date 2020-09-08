@@ -2,6 +2,8 @@
 
 namespace TJVB\MailCatchall;
 
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Mail\Events\MessageSending;
 use Psr\Log\LoggerInterface;
 
@@ -17,10 +19,20 @@ class MailCatcher
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var Factory
+     */
+    private $viewFactory;
+    /**
+     * @var Repository
+     */
+    private $config;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, Factory $viewFactory, Repository $config)
     {
         $this->logger = $logger;
+        $this->viewFactory = $viewFactory;
+        $this->config = $config;
     }
 
     /**
@@ -32,11 +44,11 @@ class MailCatcher
      */
     public function catchmail(MessageSending $event)
     {
-        if (!\config('mailcatchall.enabled')) {
+        if (!$this->config->get('mailcatchall.enabled')) {
             // this isn't enabled so we do nothing
             return;
         }
-        $receiver = \config('mailcatchall.receiver');
+        $receiver = $this->config->get('mailcatchall.receiver');
 
         if (!$receiver) {
             // there isn't a catch all adres configurated so we don't need to do anything
@@ -88,11 +100,13 @@ class MailCatcher
      */
     protected function appendHtmlReceiver(MessageSending $event, array $receivers)
     {
-        if (!\config('mailcatchall.add_receivers_to_html')) {
+        if (!$this->config->get('mailcatchall.add_receivers_to_html')) {
             return;
         }
         $body = $event->message->getBody();
-        $body = $body . \view('mailcatchall::receivers.html', ['receivers' => $receivers]);
+        $body .= $this->viewFactory->make('mailcatchall::receivers.html')
+            ->with('receivers', $receivers)
+            ->render();
         $event->message->setBody($body);
     }
 
@@ -106,11 +120,13 @@ class MailCatcher
      */
     protected function appendTextReceiver(MessageSending $event, array $receivers)
     {
-        if (!\config('mailcatchall.add_receivers_to_text')) {
+        if (!$this->config->get('mailcatchall.add_receivers_to_text')) {
             return;
         }
         $body = $event->message->getBody();
-        $body = $body . \view('mailcatchall::receivers.text', ['receivers' => $receivers]);
+        $body .= $this->viewFactory->make('mailcatchall::receivers.text')
+            ->with('receivers', $receivers)
+            ->render();
         $event->message->setBody($body);
     }
 }
