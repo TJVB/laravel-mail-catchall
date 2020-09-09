@@ -17,8 +17,6 @@ stages:
     - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
-    # temporary because of https://github.com/composer/composer/issues/9191
-    - php composer.phar self-update 1.10.10
 
 .before_xdebug: &before_xdebug
   before_script:
@@ -27,8 +25,6 @@ stages:
     - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
-    # temporary because of https://github.com/composer/composer/issues/9191
-    - php composer.phar self-update 1.10.10
     # Install Xdebug
     - pecl install xdebug
     # Enable Xdebug
@@ -41,8 +37,6 @@ stages:
     - apt-get install git zip zlib1g-dev -yqq
     # Install composer
     - curl -sS https://getcomposer.org/installer | php
-    # temporary because of https://github.com/composer/composer/issues/9191
-    - php composer.phar self-update 1.10.10
     # Install pcov
     - pecl install pcov
     # Enable pcov
