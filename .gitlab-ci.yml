@@ -117,6 +117,14 @@ test:7.3_laravel7:
     - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
     - vendor/bin/phpunit --coverage-text --colors=never
 
+test:7.3_laravel8:
+  <<: *before_pcov
+  stage: test
+  image: php:7.3
+  script:
+    - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
+    - vendor/bin/phpunit --coverage-text --colors=never
+
 # PHP 7.4
 test:7.4_laravel5.7:
   <<: *before_xdebug
@@ -148,4 +156,12 @@ test:7.4_laravel7:
   image: php:7.4
   script:
     - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
+    - vendor/bin/phpunit --coverage-text --colors=never
+
+test:7.4_laravel8:
+  <<: *before_pcov
+  stage: test
+  image: php:7.4
+  script:
+    - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
     - vendor/bin/phpunit --coverage-text --colors=never
