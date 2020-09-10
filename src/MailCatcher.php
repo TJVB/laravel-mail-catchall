@@ -42,7 +42,7 @@ class MailCatcher
      *
      * @return void
      */
-    public function catchmail(MessageSending $event)
+    public function catchmail(MessageSending $event): void
     {
         if (!$this->config->get('mailcatchall.enabled')) {
             // this isn't enabled so we do nothing
@@ -51,7 +51,7 @@ class MailCatcher
         $receiver = $this->config->get('mailcatchall.receiver');
 
         if (!$receiver) {
-            // there isn't a catch all adres configurated so we don't need to do anything
+            // there isn't a catch all address configured so we don't need to do anything
             $this->logger->error('We can\'t send the mail because the mailcatchall.receiver config value isn\'t set');
             return;
         }
@@ -80,7 +80,7 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendReceivers(MessageSending $event, array $receivers)
+    protected function appendReceivers(MessageSending $event, array $receivers): void
     {
         $contentType = $event->message->getContentType();
         if (\stripos($contentType, 'html') !== false) {
@@ -98,7 +98,7 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendHtmlReceiver(MessageSending $event, array $receivers)
+    protected function appendHtmlReceiver(MessageSending $event, array $receivers): void
     {
         if (!$this->config->get('mailcatchall.add_receivers_to_html')) {
             return;
@@ -118,7 +118,7 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendTextReceiver(MessageSending $event, array $receivers)
+    protected function appendTextReceiver(MessageSending $event, array $receivers): void
     {
         if (!$this->config->get('mailcatchall.add_receivers_to_text')) {
             return;
