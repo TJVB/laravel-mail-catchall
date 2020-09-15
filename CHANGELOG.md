@@ -6,16 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## 3.0.0
 ### Changed
 - Be clear about the PHP 7.2, 7.3 and 7.4 support.
 - Use the Psr\Log\LoggerInterface and not the Log facade.
 - Use the ViewFactory and Config repository instead of the helper functions.
+- BC break: the Mail Catcher construct signature is changed. 
+
 ## Added
 - Support Laravel 8
+### Removed
+- Support Laravel 5.7 - 5.8
 
 ## 2.3.0
 ## Added
 - Support Laravel 7
+- Tests for PHP 7.4
  
 ## 2.2.0
 ## Added

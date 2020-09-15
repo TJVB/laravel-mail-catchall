@@ -18,7 +18,7 @@ class MailEventSubscriber
      *
      * @return void
      */
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen(\config('mailcatchall.event'), '\TJVB\MailCatchall\MailCatcher@catchmail');
     }

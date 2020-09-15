@@ -16,7 +16,7 @@ class MailCatchallServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mailcatchall');
 
@@ -48,7 +48,7 @@ class MailCatchallServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerEventListener()
+    protected function registerEventListener(): void
     {
         if (!\config('mailcatchall.enabled')) {
             return;

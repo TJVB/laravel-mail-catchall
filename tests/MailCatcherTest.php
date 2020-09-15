@@ -69,7 +69,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet()
+    public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet(): void
     {
         $originalConfig = \config('mailcatchall.enabled');
         $originalReceiver = \config('mailcatchall.receiver');
@@ -103,7 +103,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillSetTheReceiverInTheTo()
+    public function itWillSetTheReceiverInTheTo(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -141,7 +141,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillRemoveTheCcReceivers()
+    public function itWillRemoveTheCcReceivers(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -179,7 +179,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillRemoveTheBccReceivers()
+    public function itWillRemoveTheBccReceivers(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -217,7 +217,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalToInTextView()
+    public function itWillAddOriginalToInTextView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -242,11 +242,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
-        } else {
-            $this->assertContains($originalTo, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -257,7 +253,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalToInHtmlView()
+    public function itWillAddOriginalToInHtmlView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -282,11 +278,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
-        } else {
-            $this->assertContains($originalTo, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -297,7 +289,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillNotAddOriginalToInHtmlViewIfDisabled()
+    public function itWillNotAddOriginalToInHtmlViewIfDisabled(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -321,12 +313,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getBody());
-        } else {
-            $this->assertNotContains($originalTo, $message->getBody());
-        }
+        $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -337,7 +324,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalCcInTextView()
+    public function itWillAddOriginalCcInTextView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -362,11 +349,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
-        } else {
-            $this->assertContains($originalCC, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -377,7 +360,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalCcInHtmlView()
+    public function itWillAddOriginalCcInHtmlView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -402,11 +385,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
-        } else {
-            $this->assertContains($originalCC, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -417,7 +396,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalBccInTextView()
+    public function itWillAddOriginalBccInTextView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -442,11 +421,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
-        } else {
-            $this->assertContains($originalBcc, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -457,7 +432,7 @@ class MailCatcherTest extends TestCase
      *
      * @test
      */
-    public function itWillAddOriginalBccInHtmlView()
+    public function itWillAddOriginalBccInHtmlView(): void
     {
         $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
@@ -482,11 +457,7 @@ class MailCatcherTest extends TestCase
 
         $catcher->catchmail($eventMock);
 
-        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
-            $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
-        } else {
-            $this->assertContains($originalBcc, $message->getBody());
-        }
+        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);

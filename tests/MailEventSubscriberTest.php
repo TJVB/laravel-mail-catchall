@@ -18,7 +18,7 @@ class MailEventSubscriverTest extends TestCase
      *
      * @test
      */
-    public function itWillSubscribeToTheEvent()
+    public function itWillSubscribeToTheEvent(): void
     {
         $dispatcher = $this->app['events'];
         $subscriber = new MailEventSubscriber();

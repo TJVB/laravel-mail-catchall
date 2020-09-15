@@ -16,7 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @return string[]
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             'TJVB\MailCatchall\MailCatchallServiceProvider'

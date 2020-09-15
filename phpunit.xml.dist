@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         verbose="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
-    <testsuites>
-        <testsuite name="Mail Catch all Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-html" target="build/coverage"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-crap4j" target="build/coverage.crap4j.xml"/>
-        <log type="coverage-php" target="build/coverage.php"/>
-        <log type="coverage-text" target="build/coverage.txt"/>
-        <log type="junit" target="build/junit.xml"/>
-        <log type="teamcity" target="build/teamcity.txt"/>
-        <log type="testdox-html" target="build/testdox/testdox.html"/>
-        <log type="testdox-text" target="build/testdox/testdox.txt"/>
-    </logging>
-    <php>
-        <env name="APP_KEY" value="base64:K8VDURhCygWl9KrdYHs+g3uvEhd3QHWFOUiq2YMZ11A="/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" backupGlobals="false" backupStaticAttributes="false" colors="true" verbose="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">src/</directory>
+    </include>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+      <crap4j outputFile="build/coverage.crap4j.xml"/>
+      <html outputDirectory="build/coverage"/>
+      <php outputFile="build/coverage.php"/>
+      <text outputFile="build/coverage.txt"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="Mail Catch all Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <junit outputFile="build/junit.xml"/>
+    <teamcity outputFile="build/teamcity.txt"/>
+    <testdoxHtml outputFile="build/testdox/testdox.html"/>
+    <testdoxText outputFile="build/testdox/testdox.txt"/>
+  </logging>
+  <php>
+    <env name="APP_KEY" value="base64:K8VDURhCygWl9KrdYHs+g3uvEhd3QHWFOUiq2YMZ11A="/>
+  </php>
 </phpunit>

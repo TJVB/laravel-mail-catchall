@@ -11,8 +11,8 @@ If you just want to see the mail directly and don't use a queue or artisan task 
 ## Installation
 You can install the Laravel Mail Catcher with composer with the command: `composer require tjvb/laravel-mail-catchall`
 
-### Before Laravel 5.5
-Add `TJVB\MailCatchall\MailCatchallServiceProvider::class,` to the providers array in config/app.php
+### Manual register the service provider.
+If you disable the package discovery you need to add `TJVB\MailCatchall\MailCatchallServiceProvider::class,` to the providers array in config/app.php
 
 ### Publish the config file
 Publish the config file with `php artisan vendor:publish --provider="TJVB\MailCatchall\MailCatchallServiceProvider"`
@@ -28,6 +28,17 @@ The package blade views are published to your views directory (resources/views/v
 ## Changelog
 We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for more information.
 
+## Version compatibility
+ Laravel Mail Catchall  | Laravel   | PHP 
+:-----------------------|:--------- | :----- 
+ 1.0                    | 5.0 - 5.6 | 7.0 - 7.2
+ 1.1                    | 5.0 - 5.7 | 7.0 - 7.2
+ 2.0                    | 5.7 - 5.8 | 7.2
+ 2.1                    | 5.7 - 5.8 | 7.2 - 7.3
+ 2.2                    | 5.7 - 6   | 7.2 - 7.3
+ 2.3                    | 5.7 - 7   | 7.2 - 7.4
+ 3.0                    | 6 - 8     | 7.3 - 7.4
+ 
 ## Contributing
 You are very welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
 
