@@ -42,6 +42,27 @@ stages:
     # Enable pcov
     - docker-php-ext-enable pcov
 
+.before_pcov8: &before_pcov8
+  before_script:
+    - apt-get update -yqq
+    - apt-get install git zip zlib1g-dev -yqq
+    - git clone https://github.com/krakjoe/pcov.git
+    - cd pcov
+    - phpize
+    - ./configure --enable-pcov
+    - make
+    - make install
+    - cd ..
+    # Install git, the php image doesn't have installed
+    #    - apt-get update -yqq
+    #    - apt-get install git zip zlib1g-dev php-pear -yqq
+    # Install composer
+    - curl -sS https://getcomposer.org/installer | php
+    # Install pcov
+    #    - pecl install pcov
+    # Enable pcov
+    - docker-php-ext-enable pcov
+
 validate:
   <<: *before_nocov
   stage: check
@@ -134,4 +155,12 @@ test:7.4_laravel8:
   image: php:7.4
   script:
     - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
+    - vendor/bin/phpunit --coverage-text --colors=never
+
+# PHP 8.0
+test:8.0_laravel8:
+  image: registry.gitlab.com/tjvb/phpimages:php8
+  stage: test
+  script:
+    - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
     - vendor/bin/phpunit --coverage-text --colors=never
