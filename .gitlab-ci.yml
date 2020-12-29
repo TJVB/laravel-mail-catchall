@@ -159,7 +159,7 @@ test:7.4_laravel8:
 
 # PHP 8.0
 test:8.0_laravel8:
-  image: registry.gitlab.com/tjvb/phpimages:php8
+  image: registry.gitlab.com/tjvb/phpimages:php80
   stage: test
   script:
     - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
