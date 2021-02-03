@@ -83,21 +83,30 @@ test:7.2:
   stage: test
   script:
   - php composer.phar install
-  - vendor/bin/phpunit --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.2_lowest:
   <<: *before_xdebug
   stage: test
   script:
     - php composer.phar update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.2_laravel6:
   <<: *before_pcov
   stage: test
   script:
     - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 # We test PHP7.3
 test:7.3:
@@ -106,7 +115,12 @@ test:7.3:
   image: php:7.3
   script:
   - php composer.phar install
-  - vendor/bin/phpunit --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+  - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
 
 test:7.3_laravel6:
   <<: *before_pcov
@@ -114,7 +128,10 @@ test:7.3_laravel6:
   image: php:7.3
   script:
     - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.3_laravel7:
   <<: *before_pcov
@@ -122,7 +139,10 @@ test:7.3_laravel7:
   image: php:7.3
   script:
     - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.3_laravel8:
   <<: *before_pcov
@@ -130,7 +150,12 @@ test:7.3_laravel8:
   image: php:7.3
   script:
     - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
 
 # PHP 7.4
 test:7.4_laravel6:
@@ -139,7 +164,10 @@ test:7.4_laravel6:
   image: php:7.4
   script:
     - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.4_laravel7:
   <<: *before_pcov
@@ -147,7 +175,10 @@ test:7.4_laravel7:
   image: php:7.4
   script:
     - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
 
 test:7.4_laravel8:
   <<: *before_pcov
@@ -155,7 +186,12 @@ test:7.4_laravel8:
   image: php:7.4
   script:
     - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
 
 # PHP 8.0
 test:8.0_laravel8:
@@ -163,4 +199,9 @@ test:8.0_laravel8:
   stage: test
   script:
     - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
