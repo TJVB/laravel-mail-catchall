@@ -77,6 +77,14 @@ phpmd:
   script:
     - phpmd src/ text phpmd.xml.dist
 
+psalm:
+  <<: *before_nocov
+  stage: check
+  script:
+    - php composer.phar install
+    # check for psalm errors
+    - vendor/bin/psalm
+
 # We test PHP7.2
 test:7.2:
   <<: *before_pcov
