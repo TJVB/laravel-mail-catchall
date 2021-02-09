@@ -8,3 +8,6 @@
 /.phpunit.result.cache
 /phpmd.xml
 /phpcs.xml
+/psalm.json
+/php_codesniffer.json
+/code-climate.json
