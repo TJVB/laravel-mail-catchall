@@ -1,12 +1,13 @@
 cache:
   key: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}"
   paths:
-  - ~/.composer # cache the composer directory
+    - ~/.composer # cache the composer directory
 
 # set the default docker image
 image: php:7.2
 
 stages:
+  - prepare
   - check
   - test
 
@@ -63,6 +64,24 @@ stages:
     # Enable pcov
     - docker-php-ext-enable pcov
 
+prepare_cache:
+  stage: prepare
+  <<: *before_nocov
+  script:
+    - php composer.phar install
+  cache:
+    key: "${CI_PROJECT_NAME}"
+    # we use the with this job to create an artifact with the composer parts and use the cache to speed it up
+    policy: pull-push
+    paths:
+      - vendor/
+  # we use this artifact for all the jobs
+  artifacts:
+    name: "vendor"
+    paths:
+      - vendor/*
+    expire_in: 2 hour
+
 validate:
   <<: *before_nocov
   stage: check
@@ -70,12 +89,18 @@ validate:
     - php composer.phar validate
     - php composer.phar install
     - vendor/bin/phpcs
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 phpmd:
   image: phpqa/phpmd
   stage: check
   script:
     - phpmd src/ text phpmd.xml.dist
+  needs: []
+  dependencies: []
 
 psalm:
   <<: *before_nocov
@@ -84,17 +109,25 @@ psalm:
     - php composer.phar install
     # check for psalm errors
     - vendor/bin/psalm
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 # We test PHP7.2
 test:7.2:
   <<: *before_pcov
   stage: test
   script:
-  - php composer.phar install
-  - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+    - php composer.phar install
+    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.2_lowest:
   <<: *before_xdebug
@@ -105,6 +138,10 @@ test:7.2_lowest:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.2_laravel6:
   <<: *before_pcov
@@ -115,6 +152,10 @@ test:7.2_laravel6:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 # We test PHP7.3
 test:7.3:
@@ -122,13 +163,17 @@ test:7.3:
   stage: test
   image: php:7.3
   script:
-  - php composer.phar install
-  - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-  - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+    - php composer.phar install
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
       cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.3_laravel6:
   <<: *before_pcov
@@ -140,6 +185,10 @@ test:7.3_laravel6:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.3_laravel7:
   <<: *before_pcov
@@ -151,6 +200,10 @@ test:7.3_laravel7:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.3_laravel8:
   <<: *before_pcov
@@ -164,6 +217,10 @@ test:7.3_laravel8:
     reports:
       junit: phpunitresult/junit.xml
       cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 # PHP 7.4
 test:7.4_laravel6:
@@ -176,6 +233,10 @@ test:7.4_laravel6:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.4_laravel7:
   <<: *before_pcov
@@ -187,6 +248,10 @@ test:7.4_laravel7:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 test:7.4_laravel8:
   <<: *before_pcov
@@ -200,6 +265,10 @@ test:7.4_laravel8:
     reports:
       junit: phpunitresult/junit.xml
       cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 # PHP 8.0
 test:8.0_laravel8:
@@ -213,3 +282,7 @@ test:8.0_laravel8:
     reports:
       junit: phpunitresult/junit.xml
       cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
