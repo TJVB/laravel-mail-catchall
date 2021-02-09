@@ -1,5 +1,8 @@
 # Ignore the test files and directories with export-ignore
 /.gitlab-ci.yml export-ignore
 /build export-ignore
+/phpcs.xml.dist export-ignore
+/phpmd.xml.dist export-ignore
 /phpunit.xml export-ignore
+/psalm.xml export-ignore
 /tests export-ignore
