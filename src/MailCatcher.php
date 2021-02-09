@@ -48,7 +48,7 @@ class MailCatcher
             // this isn't enabled so we do nothing
             return;
         }
-        $receiver = $this->config->get('mailcatchall.receiver');
+        $receiver = (string) $this->config->get('mailcatchall.receiver');
 
         if (!$receiver) {
             // there isn't a catch all address configured so we don't need to do anything

@@ -2,6 +2,7 @@
 
 namespace TJVB\MailCatchall\Tests;
 
+use Illuminate\Contracts\Config\Repository;
 use TJVB\MailCatchall\MailEventSubscriber;
 
 /**
@@ -20,8 +21,8 @@ class MailEventSubscriverTest extends TestCase
      */
     public function itWillSubscribeToTheEvent(): void
     {
-        $dispatcher = $this->app['events'];
-        $subscriber = new MailEventSubscriber();
+        $dispatcher = $this->app->get('events');
+        $subscriber = new MailEventSubscriber($this->app->get(Repository::class));
         $this->assertFalse($dispatcher->hasListeners(\config('mailcatchall.event')));
         $subscriber->subscribe($dispatcher);
         $this->assertTrue($dispatcher->hasListeners(\config('mailcatchall.event')));

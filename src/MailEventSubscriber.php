@@ -2,6 +2,7 @@
 
 namespace TJVB\MailCatchall;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -11,6 +12,17 @@ use Illuminate\Events\Dispatcher;
  */
 class MailEventSubscriber
 {
+
+    /**
+     * @var Repository
+     */
+    private $config;
+
+    public function __construct(Repository $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * Register the listeners for the subscriber.
      *
@@ -20,6 +32,6 @@ class MailEventSubscriber
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen(\config('mailcatchall.event'), '\TJVB\MailCatchall\MailCatcher@catchmail');
+        $events->listen((string) $this->config->get('mailcatchall.event'), '\TJVB\MailCatchall\MailCatcher@catchmail');
     }
 }
