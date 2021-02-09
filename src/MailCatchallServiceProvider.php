@@ -2,6 +2,7 @@
 
 namespace TJVB\MailCatchall;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -53,6 +54,8 @@ class MailCatchallServiceProvider extends ServiceProvider
         if (!\config('mailcatchall.enabled')) {
             return;
         }
-        $this->app['events']->subscribe(MailEventSubscriber::class);
+        $dispatcher = $this->app->get('events');
+
+        $dispatcher->subscribe(MailEventSubscriber::class);
     }
 }
