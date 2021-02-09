@@ -78,6 +78,7 @@ phpmd:
     - phpmd src/ text phpmd.xml.dist
 
 psalm:
+  <<: *before_nocov
   stage: check
   script:
     - php composer.phar install
