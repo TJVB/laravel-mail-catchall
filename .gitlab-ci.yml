@@ -10,6 +10,7 @@ stages:
   - prepare
   - check
   - test
+  - report
 
 .before_nocov: &before_nocov
   before_script:
@@ -88,7 +89,11 @@ validate:
   script:
     - php composer.phar validate
     - php composer.phar install
-    - vendor/bin/phpcs
+    - vendor/bin/phpcs --basepath=. --report-json=php_codesniffer.json
+  artifacts:
+    paths:
+      - php_codesniffer.json
+    when: always
   needs:
     - prepare_cache
   dependencies:
@@ -108,7 +113,11 @@ psalm:
   script:
     - php composer.phar install
     # check for psalm errors
-    - vendor/bin/psalm
+    - vendor/bin/psalm --report=psalm.json
+  artifacts:
+    paths:
+      - psalm.json
+    when: always
   needs:
     - prepare_cache
   dependencies:
@@ -286,3 +295,23 @@ test:8.0_laravel8:
     - prepare_cache
   dependencies:
     - prepare_cache
+
+CodeQuality:
+  image: php:7.4
+  <<: *before_nocov
+  stage: report
+  needs:
+      - prepare_cache
+      - psalm
+      - validate
+  dependencies:
+    - prepare_cache
+    - psalm
+    - validate
+  script:
+    - php composer.phar require --dev beechit/json-to-code-climate-subset-converter:^1.4
+    - vendor/bin/converter convert --psalm --php_codesniffer
+  artifacts:
+    reports:
+      codequality: code-climate.json
+    when: always
