@@ -296,6 +296,23 @@ test:8.0_laravel8:
   dependencies:
     - prepare_cache
 
+# PHP 8.1
+test:8.1_laravel8:
+  image: registry.gitlab.com/tjvb/phpimages:php81
+  stage: test
+  script:
+    - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
+
 CodeQuality:
   image: php:7.4
   <<: *before_nocov
