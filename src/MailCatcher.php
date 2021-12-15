@@ -14,7 +14,6 @@ use Psr\Log\LoggerInterface;
  */
 class MailCatcher
 {
-
     /**
      * @var LoggerInterface
      */

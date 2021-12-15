@@ -12,7 +12,6 @@ use Illuminate\Events\Dispatcher;
  */
 class MailEventSubscriber
 {
-
     /**
      * @var Repository
      */
