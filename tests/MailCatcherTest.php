@@ -6,6 +6,8 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Mockery;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use TJVB\MailCatchall\MailCatcher;
 use Illuminate\Mail\Events\MessageSending;
 use Faker\Factory;
@@ -41,6 +43,7 @@ class MailCatcherTest extends TestCase
      */
     public function itWillDoNothingIfCatchmailIsNotEnabled(): void
     {
+        $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
         \config(['mailcatchall.enabled' => false]);
 
@@ -49,17 +52,21 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
-        $messageMock = Mockery::mock(\Swift_Message::class);
-        $messageMock->shouldNotReceive([
-            'setTo',
-            'getCc',
-            'getBcc',
-        ]);
+        $originalTo = $faker->email();
 
-        $eventMock->message = $messageMock;
+        $message = new Email();
+        $message->to($originalTo);
+        $message->text($faker->text());
+        $message->addCc($faker->email());
+        $message->addBcc($faker->email());
 
-        $catcher->catchmail($eventMock);
+        $event = new MessageSending($message);
+
+        $catcher->catchmail($event);
+
+        $this->assertNotEmpty($message->getCc());
+        $this->assertNotEmpty($message->getBcc());
+        $this->assertTo($message, $originalTo);
 
         \config(['mailcatchall.enabled' => $originalConfig]);
     }
@@ -71,6 +78,7 @@ class MailCatcherTest extends TestCase
      */
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet(): void
     {
+        $faker = Factory::create();
         $originalConfig = \config('mailcatchall.enabled');
         $originalReceiver = \config('mailcatchall.receiver');
         \config(['mailcatchall.receiver' => null]);
@@ -82,17 +90,21 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
-        $messageMock = Mockery::mock(\Swift_Message::class);
-        $messageMock->shouldNotReceive([
-            'setTo',
-            'getCc',
-            'getBcc',
-        ]);
+        $originalTo = $faker->email();
 
-        $eventMock->message = $messageMock;
+        $message = new Email();
+        $message->to($originalTo);
+        $message->text($faker->text());
+        $message->addCc($faker->email());
+        $message->addBcc($faker->email());
 
-        $catcher->catchmail($eventMock);
+        $event = new MessageSending($message);
+
+        $catcher->catchmail($event);
+
+        $this->assertNotEmpty($message->getCc());
+        $this->assertNotEmpty($message->getBcc());
+        $this->assertTo($message, $originalTo);
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -116,21 +128,15 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
-        $messageMock = Mockery::mock(\Swift_Message::class);
-        $messageMock->shouldNotReceive([
-            'setCc',
-            'setBcc',
-        ]);
-        $messageMock->shouldReceive('setTo')->once()->with($receiver);
-        $messageMock->shouldReceive('getTo');
-        $messageMock->shouldReceive('getCc');
-        $messageMock->shouldReceive('getBcc');
-        $messageMock->shouldReceive('getContentType');
 
-        $eventMock->message = $messageMock;
+        $message = new Email();
+        $message->text($faker->text);
 
-        $catcher->catchmail($eventMock);
+        $event = new MessageSending($message);
+
+        $catcher->catchmail($event);
+
+        $this->assertTo($message, $receiver);
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -154,21 +160,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
-        $messageMock = Mockery::mock(\Swift_Message::class);
-        $messageMock->shouldNotReceive([
-            'setBcc',
-        ]);
-        $messageMock->shouldReceive('getTo');
-        $messageMock->shouldReceive('setTo')->once()->with($receiver);
-        $messageMock->shouldReceive('setCc')->once()->with([]);
-        $messageMock->shouldReceive('getCc')->andReturn([$faker->email]);
-        $messageMock->shouldReceive('getBcc');
-        $messageMock->shouldReceive('getContentType');
 
-        $eventMock->message = $messageMock;
+        $message = new Email();
+        $message->cc($faker->email);
 
-        $catcher->catchmail($eventMock);
+        $event = new MessageSending($message);
+
+        $catcher->catchmail($event);
+        $this->assertEmpty($message->getBcc());
+        $this->assertEmpty($message->getCc());
+        $this->assertTo($message, $receiver);
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -192,21 +193,17 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
-        $messageMock = Mockery::mock(\Swift_Message::class);
-        $messageMock->shouldNotReceive([
-            'setCc',
-        ]);
-        $messageMock->shouldReceive('getTo');
-        $messageMock->shouldReceive('setTo')->once()->with($receiver);
-        $messageMock->shouldReceive('getCc');
-        $messageMock->shouldReceive('getBcc')->andReturn([$faker->email]);
-        $messageMock->shouldReceive('setBcc')->once()->with([]);
-        $messageMock->shouldReceive('getContentType');
 
-        $eventMock->message = $messageMock;
+        $message = new Email();
+        $message->text($faker->text);
+        $message->addBcc($faker->email);
 
-        $catcher->catchmail($eventMock);
+        $event = new MessageSending($message);
+
+        $catcher->catchmail($event);
+
+        $this->assertEmpty($message->getBcc());
+        $this->assertTo($message, $receiver);
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -232,17 +229,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'text');
-        $message->setTo($originalTo);
+        $message = new Email();
+        $message->text($faker->text);
+        $message->to($originalTo);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getTextBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -268,17 +264,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'html');
-        $message->setTo($originalTo);
+        $message = new Email();
+        $message->html($faker->text);
+        $message->to($originalTo);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getHtmlBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -303,17 +298,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'html');
-        $message->setTo($originalTo);
+        $message = new Email();
+        $message->html($faker->text);
+        $message->to($originalTo);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getBody());
+        $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getHtmlBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -339,17 +333,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'text');
-        $message->setCc($originalCC);
+        $message = new Email();
+        $message->text($faker->text);
+        $message->cc($originalCC);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getTextBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -375,17 +368,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'html');
-        $message->setCc($originalCC);
+        $message = new Email();
+        $message->html($faker->text);
+        $message->cc($originalCC);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getHtmlBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -411,17 +403,16 @@ class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-        $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'text');
-        $message->setBcc($originalBcc);
+        $message = new Email();
+        $message->text($faker->text);
+        $message->bcc($originalBcc);
 
-        $eventMock->message = $message;
+        $event = new MessageSending($message);
 
-        $catcher->catchmail($eventMock);
+        $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getTextBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -449,15 +440,15 @@ class MailCatcherTest extends TestCase
         );
         $eventMock = Mockery::mock(MessageSending::class);
 
-        $message = new \Swift_Message();
-        $message->setBody($faker->text, 'html');
-        $message->setBcc($originalBcc);
+        $message = new Email();
+        $message->html($faker->text);
+        $message->bcc($originalBcc);
 
         $eventMock->message = $message;
 
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getBody());
+        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getHtmlBody());
 
         \config(['mailcatchall.enabled' => $originalConfig]);
         \config(['mailcatchall.receiver' => $originalReceiver]);
@@ -476,5 +467,13 @@ class MailCatcherTest extends TestCase
     private function getConfigRepository(): Repository
     {
         return $this->app->make(Repository::class);
+    }
+
+    private function assertTo(Email $message, string $receiver): void
+    {
+        $to = $message->getTo();
+        $this->assertArrayHasKey(0, $to);
+        $this->assertInstanceOf(Address::class, $to[0]);
+        $this->assertEquals($receiver, $to[0]->getAddress());
     }
 }
