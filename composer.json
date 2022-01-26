@@ -50,6 +50,7 @@
             "TJVB\\MailCatchall\\Tests\\": "tests/"
         }
     },
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "support": {
         "issues": "https://gitlab.com/tjvb/laravel-mail-catchall/-/issues",

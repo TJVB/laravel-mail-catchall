@@ -32,7 +32,7 @@ prepare_cache:
 validate:
   stage: check
   script:
-    - composer install validate
+    - composer validate
     - vendor/bin/phpcs --basepath=. --report-json=php_codesniffer.json
   artifacts:
     paths:
