@@ -132,7 +132,6 @@ test:8.1_laravel9:
     - prepare_cache
 
 CodeQuality:
-  image: php:8.0
   stage: report
   needs:
       - prepare_cache
