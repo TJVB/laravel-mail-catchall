@@ -131,20 +131,20 @@ test:8.1_laravel9:
   dependencies:
     - prepare_cache
 
-CodeQuality:
-  stage: report
-  needs:
-      - prepare_cache
-      - psalm
-      - validate
-  dependencies:
-    - prepare_cache
-    - psalm
-    - validate
-  script:
-    - composer require --dev beechit/json-to-code-climate-subset-converter:^1.4
-    - vendor/bin/converter convert --psalm --php_codesniffer
-  artifacts:
-    reports:
-      codequality: code-climate.json
-    when: always
+#CodeQuality:
+#  stage: report
+#  needs:
+#      - prepare_cache
+#      - psalm
+#      - validate
+#  dependencies:
+#    - prepare_cache
+#    - psalm
+#    - validate
+#  script:
+#    - composer require --dev beechit/json-to-code-climate-subset-converter:^1.6
+#    - vendor/bin/converter convert --psalm --php_codesniffer
+#  artifacts:
+#    reports:
+#      codequality: code-climate.json
+#    when: always
