@@ -6,6 +6,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Mail\Events\MessageSending;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mime\Address;
 
 /**
  * The class to catch the mail
@@ -59,14 +60,14 @@ class MailCatcher
             'cc' => $event->message->getCc(),
             'bcc' => $event->message->getBcc(),
         ];
-        $event->message->setTo($receiver);
-        if ($event->message->getCc()) {
+        $event->message->to($receiver);
+        if ($event->message->getCc() || $event->message->getBcc()) {
+            $headers = $event->message->getHeaders();
             // remove the cc
-            $event->message->setCc([]);
-        }
-        if ($event->message->getBcc()) {
+            $headers->remove('cc');
             //remove the bcc
-            $event->message->setBcc([]);
+            $headers->remove('bcc');
+            $event->message->setHeaders($headers);
         }
         $this->appendReceivers($event, $originalReceivers);
     }
@@ -81,8 +82,17 @@ class MailCatcher
      */
     protected function appendReceivers(MessageSending $event, array $receivers): void
     {
-        $contentType = $event->message->getContentType();
-        if (\stripos($contentType, 'html') !== false) {
+        $map = static function (string|Address $receiver): string {
+            if ($receiver instanceof Address) {
+                return $receiver->toString();
+            }
+            return $receiver;
+        };
+        $receivers['to'] = array_map($map, (array) $receivers['to']);
+        $receivers['cc'] = array_map($map, (array) $receivers['cc']);
+        $receivers['bcc'] = array_map($map, (array) $receivers['bcc']);
+
+        if ($event->message->getHtmlBody() !== null) {
             $this->appendHtmlReceiver($event, $receivers);
             return;
         }
@@ -102,11 +112,11 @@ class MailCatcher
         if (!$this->config->get('mailcatchall.add_receivers_to_html')) {
             return;
         }
-        $body = $event->message->getBody();
+        $body = (string)$event->message->getHtmlBody();
         $body .= $this->viewFactory->make('mailcatchall::receivers.html')
             ->with('receivers', $receivers)
             ->render();
-        $event->message->setBody($body);
+        $event->message->html($body, $event->message->getHtmlCharset() ?? 'utf-8');
     }
 
     /**
@@ -122,10 +132,10 @@ class MailCatcher
         if (!$this->config->get('mailcatchall.add_receivers_to_text')) {
             return;
         }
-        $body = $event->message->getBody();
+        $body = (string) $event->message->getTextBody();
         $body .= $this->viewFactory->make('mailcatchall::receivers.text')
             ->with('receivers', $receivers)
             ->render();
-        $event->message->setBody($body);
+        $event->message->text($body);
     }
 }

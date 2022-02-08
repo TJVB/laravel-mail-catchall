@@ -4,7 +4,7 @@ cache:
     - ~/.composer # cache the composer directory
 
 # set the default docker image
-image: php:7.2
+image: registry.gitlab.com/tjvb/phpimages:php80
 
 stages:
   - prepare
@@ -12,64 +12,10 @@ stages:
   - test
   - report
 
-.before_nocov: &before_nocov
-  before_script:
-    # Install git, the php image doesn't have installed
-    - apt-get update -yqq
-    - apt-get install git zip zlib1g-dev -yqq
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
-
-.before_xdebug: &before_xdebug
-  before_script:
-    # Install git, the php image doesn't have installed
-    - apt-get update -yqq
-    - apt-get install git zip zlib1g-dev -yqq
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
-    # Install Xdebug
-    - pecl install xdebug
-    # Enable Xdebug
-    - docker-php-ext-enable xdebug
-
-.before_pcov: &before_pcov
-  before_script:
-    # Install git, the php image doesn't have installed
-    - apt-get update -yqq
-    - apt-get install git zip zlib1g-dev -yqq
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
-    # Install pcov
-    - pecl install pcov
-    # Enable pcov
-    - docker-php-ext-enable pcov
-
-.before_pcov8: &before_pcov8
-  before_script:
-    - apt-get update -yqq
-    - apt-get install git zip zlib1g-dev -yqq
-    - git clone https://github.com/krakjoe/pcov.git
-    - cd pcov
-    - phpize
-    - ./configure --enable-pcov
-    - make
-    - make install
-    - cd ..
-    # Install git, the php image doesn't have installed
-    #    - apt-get update -yqq
-    #    - apt-get install git zip zlib1g-dev php-pear -yqq
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
-    # Install pcov
-    #    - pecl install pcov
-    # Enable pcov
-    - docker-php-ext-enable pcov
-
 prepare_cache:
   stage: prepare
-  <<: *before_nocov
   script:
-    - php composer.phar install
+    - composer install
   cache:
     key: "${CI_PROJECT_NAME}"
     # we use the with this job to create an artifact with the composer parts and use the cache to speed it up
@@ -84,11 +30,9 @@ prepare_cache:
     expire_in: 2 hour
 
 validate:
-  <<: *before_nocov
   stage: check
   script:
-    - php composer.phar validate
-    - php composer.phar install
+    - composer validate
     - vendor/bin/phpcs --basepath=. --report-json=php_codesniffer.json
   artifacts:
     paths:
@@ -108,10 +52,8 @@ phpmd:
   dependencies: []
 
 psalm:
-  <<: *before_nocov
   stage: check
   script:
-    - php composer.phar install
     # check for psalm errors
     - vendor/bin/psalm --report=psalm.json
   artifacts:
@@ -123,168 +65,28 @@ psalm:
   dependencies:
     - prepare_cache
 
-# We test PHP7.2
-test:7.2:
-  <<: *before_pcov
-  stage: test
-  script:
-    - php composer.phar install
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.2_lowest:
-  <<: *before_xdebug
-  stage: test
-  script:
-    - php composer.phar update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.2_laravel6:
-  <<: *before_pcov
-  stage: test
-  script:
-    - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-# We test PHP7.3
-test:7.3:
-  <<: *before_pcov
-  stage: test
-  image: php:7.3
-  script:
-    - php composer.phar install
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.3_laravel6:
-  <<: *before_pcov
-  stage: test
-  image: php:7.3
-  script:
-    - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.3_laravel7:
-  <<: *before_pcov
-  stage: test
-  image: php:7.3
-  script:
-    - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.3_laravel8:
-  <<: *before_pcov
-  stage: test
-  image: php:7.3
-  script:
-    - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-# PHP 7.4
-test:7.4_laravel6:
-  <<: *before_pcov
-  stage: test
-  image: php:7.4
-  script:
-    - php composer.phar require --dev "orchestra/testbench=~4" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.4_laravel7:
-  <<: *before_pcov
-  stage: test
-  image: php:7.4
-  script:
-    - php composer.phar require --dev "orchestra/testbench=~5" phpunit/phpunit=~8.0
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:7.4_laravel8:
-  <<: *before_pcov
-  stage: test
-  image: php:7.4
-  script:
-    - php composer.phar require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
 # PHP 8.0
-test:8.0_laravel8:
+test:8.0_lowest:
   image: registry.gitlab.com/tjvb/phpimages:php80
   stage: test
   script:
-    - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
+    - composer update --prefer-lowest
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
+
+test:8.0_laravel9:
+  image: registry.gitlab.com/tjvb/phpimages:php80
+  stage: test
+  script:
+    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
   artifacts:
@@ -297,11 +99,11 @@ test:8.0_laravel8:
     - prepare_cache
 
 # PHP 8.1
-test:8.1_laravel8:
+test:8.1_lowest:
   image: registry.gitlab.com/tjvb/phpimages:php81
   stage: test
   script:
-    - composer require --dev "orchestra/testbench=^6" phpunit/phpunit=^9.0
+    - composer update --prefer-lowest
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
   artifacts:
@@ -313,22 +115,36 @@ test:8.1_laravel8:
   dependencies:
     - prepare_cache
 
-CodeQuality:
-  image: php:7.4
-  <<: *before_nocov
-  stage: report
-  needs:
-      - prepare_cache
-      - psalm
-      - validate
-  dependencies:
-    - prepare_cache
-    - psalm
-    - validate
+test:8.1_laravel9:
+  image: registry.gitlab.com/tjvb/phpimages:php81
+  stage: test
   script:
-    - php composer.phar require --dev beechit/json-to-code-climate-subset-converter:^1.4
-    - vendor/bin/converter convert --psalm --php_codesniffer
+    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
   artifacts:
     reports:
-      codequality: code-climate.json
-    when: always
+      junit: phpunitresult/junit.xml
+      cobertura: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
+
+#CodeQuality:
+#  stage: report
+#  needs:
+#      - prepare_cache
+#      - psalm
+#      - validate
+#  dependencies:
+#    - prepare_cache
+#    - psalm
+#    - validate
+#  script:
+#    - composer require --dev beechit/json-to-code-climate-subset-converter:^1.6
+#    - vendor/bin/converter convert --psalm --php_codesniffer
+#  artifacts:
+#    reports:
+#      codequality: code-climate.json
+#    when: always
