@@ -40,6 +40,7 @@ We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for
  3.0                    | 6 - 8     | 7.3 - 7.4
  3.1                    | 6 - 8     | 7.3 - 8.0
  3.2                    | 6 - 8     | 7.3 - 8.1
+ 4.0                    | 9         | 8.0 - 8.1
  
 ## Contributing
 You are very welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)

@@ -1,7 +1,8 @@
 {
     "name": "tjvb/laravel-mail-catchall",
-    "type": "library",
     "description": "Catch all mail in Laravel and redirect it to a configured email address",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "tjvb",
         "laravel",
@@ -9,7 +10,6 @@
         "catchall"
     ],
     "readme": "README.md",
-    "license": "MIT",
     "authors": [
         {
             "name": "Tobias van Beek",
@@ -17,29 +17,31 @@
             "homepage": "http://www.tjvb.nl"
         }
     ],
+    "support": {
+        "issues": "https://gitlab.com/tjvb/laravel-mail-catchall/-/issues",
+        "source": "https://gitlab.com/tjvb/laravel-mail-catchall/-/tree/master"
+    },
+    "funding": [
+        {
+            "type": "paypal",
+            "url": "https://paypal.me/tvbeek"
+        }
+    ],
     "require": {
         "php": "~8.0.0 || ~8.1.0",
-        "laravel/framework": "^9.0-dev",
+        "laravel/framework": "^9.0",
         "psr/log": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.11",
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^7.0-dev",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^8.0 || ^9.0",
         "squizlabs/php_codesniffer": "^3.2",
         "vimeo/psalm": "^4.4"
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "TJVB\\MailCatchall\\MailCatchallServiceProvider"
-            ]
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "TJVB\\MailCatchall\\": "src"
@@ -50,16 +52,14 @@
             "TJVB\\MailCatchall\\Tests\\": "tests/"
         }
     },
-    "prefer-stable": true,
-    "minimum-stability": "dev",
-    "support": {
-        "issues": "https://gitlab.com/tjvb/laravel-mail-catchall/-/issues",
-        "source": "https://gitlab.com/tjvb/laravel-mail-catchall/-/tree/master"
+    "config": {
+        "sort-packages": true
     },
-    "funding": [
-        {
-            "type": "paypal",
-            "url": "https://paypal.me/tvbeek"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TJVB\\MailCatchall\\MailCatchallServiceProvider"
+            ]
         }
-    ]
+    }
 }
