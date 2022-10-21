@@ -76,7 +76,9 @@ test:8.0_lowest:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
   needs:
     - prepare_cache
   dependencies:
@@ -92,7 +94,9 @@ test:8.0_laravel9:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
   needs:
     - prepare_cache
   dependencies:
@@ -109,7 +113,9 @@ test:8.1_lowest:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
   needs:
     - prepare_cache
   dependencies:
@@ -125,7 +131,47 @@ test:8.1_laravel9:
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
-      cobertura: phpunitresult/cobertura-coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
+    
+
+# PHP 8.2
+test:8.2_lowest:
+  image: registry.gitlab.com/tjvb/phpimages:php82
+  stage: test
+  script:
+    - composer update --prefer-lowest
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
+
+test:8.2_laravel9:
+  image: registry.gitlab.com/tjvb/phpimages:php82
+  stage: test
+  script:
+    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
   needs:
     - prepare_cache
   dependencies:
