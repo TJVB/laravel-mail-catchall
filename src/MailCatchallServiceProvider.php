@@ -64,6 +64,9 @@ class MailCatchallServiceProvider extends ServiceProvider
         $dispatcher->subscribe(MailEventSubscriber::class);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     private function registerAboutInformation(): void
     {
         if (!class_exists(AboutCommand::class)) {
