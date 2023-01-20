@@ -3,6 +3,7 @@
 namespace TJVB\MailCatchall;
 
 use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -29,6 +30,7 @@ class MailCatchallServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->registerEventListener();
+        $this->registerAboutInformation();
     }
 
     /**
@@ -36,7 +38,7 @@ class MailCatchallServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/mailcatchall.php',
@@ -60,5 +62,16 @@ class MailCatchallServiceProvider extends ServiceProvider
         $dispatcher = $this->app->get('events');
 
         $dispatcher->subscribe(MailEventSubscriber::class);
+    }
+
+    private function registerAboutInformation(): void
+    {
+        if (!class_exists(AboutCommand::class)) {
+            return;
+        }
+        AboutCommand::add('Laravel Mail Catchall', fn () => [
+            'Enabled' => config('mailcatchall.enabled'),
+            'Receiver' => config('mailcatchall.receiver'),
+        ]);
     }
 }
