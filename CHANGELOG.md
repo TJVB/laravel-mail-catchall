@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - Add the enabled status and receiver to the Laravel about command if possible.
+- Support for Laravel 10.
 
 
 ## 4.1.0 - 2022-12-20
