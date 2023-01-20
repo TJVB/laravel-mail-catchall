@@ -25,6 +25,14 @@
         {
             "type": "paypal",
             "url": "https://paypal.me/tvbeek"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/tvbeek"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/TJVB"
         }
     ],
     "require": {
@@ -36,6 +44,7 @@
         "fakerphp/faker": "^1.11",
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "^7.0",
+        "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": "^8.0 || ^9.0",
         "squizlabs/php_codesniffer": "^3.2",
         "vimeo/psalm": "^4.4"
@@ -61,5 +70,20 @@
                 "TJVB\\MailCatchall\\MailCatchallServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "check-all": [
+            "@format",
+            "@codestyle",
+            "@test-no-coverage",
+            "@psalm",
+            "@phpmd"
+        ],
+        "codestyle": "@php vendor/bin/phpcs",
+        "format": "@php vendor/bin/phpcbf",
+        "phpmd": "@php vendor/bin/phpmd src/ text phpmd.xml.dist",
+        "psalm": "@php vendor/bin/psalm",
+        "test": "@php vendor/bin/phpunit",
+        "test-no-coverage": "@php vendor/bin/phpunit --no-coverage"
     }
 }

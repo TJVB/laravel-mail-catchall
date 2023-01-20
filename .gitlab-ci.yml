@@ -44,12 +44,13 @@ validate:
     - prepare_cache
 
 phpmd:
-  image: phpqa/phpmd
   stage: check
   script:
-    - phpmd src/ text phpmd.xml.dist
-  needs: []
-  dependencies: []
+    - vendor/bin/phpmd src/ text phpmd.xml.dist
+  needs:
+    - prepare_cache
+  dependencies:
+    - prepare_cache
 
 psalm:
   stage: check
