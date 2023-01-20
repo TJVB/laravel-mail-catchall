@@ -98,6 +98,11 @@ test:
           - 80
           - 81
           - 82
+      - LARAVEL: 10
+        TESTBENCH: 8
+        PHP:
+          - 81
+          - 82
   image: registry.gitlab.com/tjvb/phpimages:php$PHP
   stage: test
   script:
