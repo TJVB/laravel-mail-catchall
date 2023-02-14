@@ -67,8 +67,11 @@ psalm:
     - prepare_cache
 
 # PHP 8.0
-test:8.0_lowest:
-  image: registry.gitlab.com/tjvb/phpimages:php80
+test_lowest:
+  parallel:
+    matrix:
+      - PHP: [ 80, 81, 82]
+  image: registry.gitlab.com/tjvb/phpimages:php$PHP
   stage: test
   script:
     - composer update --prefer-lowest
@@ -86,13 +89,28 @@ test:8.0_lowest:
   dependencies:
     - prepare_cache
 
-test:8.0_laravel9:
-  image: registry.gitlab.com/tjvb/phpimages:php80
+test:
+  parallel:
+    matrix:
+      - LARAVEL: 9
+        TESTBENCH: 7
+        PHP:
+          - 80
+          - 81
+          - 82
+      - LARAVEL: 10
+        TESTBENCH: 8
+        PHP:
+          - 81
+          - 82
+  image: registry.gitlab.com/tjvb/phpimages:php$PHP
   stage: test
   script:
-    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
+    - echo "Laravel $LARAVEL"
+    - composer require --dev "orchestra/testbench=^$TESTBENCH"
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  coverage: '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
@@ -103,96 +121,3 @@ test:8.0_laravel9:
     - prepare_cache
   dependencies:
     - prepare_cache
-
-# PHP 8.1
-test:8.1_lowest:
-  image: registry.gitlab.com/tjvb/phpimages:php81
-  stage: test
-  script:
-    - composer update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:8.1_laravel9:
-  image: registry.gitlab.com/tjvb/phpimages:php81
-  stage: test
-  script:
-    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-    
-
-# PHP 8.2
-test:8.2_lowest:
-  image: registry.gitlab.com/tjvb/phpimages:php82
-  stage: test
-  script:
-    - composer update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-test:8.2_laravel9:
-  image: registry.gitlab.com/tjvb/phpimages:php82
-  stage: test
-  script:
-    - composer require --dev "orchestra/testbench=^7" phpunit/phpunit=^9.0
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  needs:
-    - prepare_cache
-  dependencies:
-    - prepare_cache
-
-#CodeQuality:
-#  stage: report
-#  needs:
-#      - prepare_cache
-#      - psalm
-#      - validate
-#  dependencies:
-#    - prepare_cache
-#    - psalm
-#    - validate
-#  script:
-#    - composer require --dev beechit/json-to-code-climate-subset-converter:^1.6
-#    - vendor/bin/converter convert --psalm --php_codesniffer
-#  artifacts:
-#    reports:
-#      codequality: code-climate.json
-#    when: always
