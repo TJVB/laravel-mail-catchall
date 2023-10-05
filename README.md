@@ -1,6 +1,20 @@
 # Laravel Mail Catchall
-[![pipeline status](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/pipeline.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
-[![coverage report](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/coverage.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/commits/master)
+
+[![Latest Stable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+[![Pipeline status](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/pipeline.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Coverage report](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/coverage.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Tested on PHP 8.0 to 8.2](https://img.shields.io/badge/Tested%20on-PHP%208.0%20|%208.1%20|%208.2-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Tested on Laravel 9 to 10](https://img.shields.io/badge/Tested%20on-Laravel%209%20|%2010-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Latest Unstable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v/unstable)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+
+
+[![PHP Version Require](https://poser.pugx.org/tjvb/laravel-mail-catchall/require/php)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+[![Laravel Version Require](https://poser.pugx.org/tjvb/laravel-mail-catchall/require/laravel/framework)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+[![PHPMD](https://img.shields.io/badge/PHPMD-checked-brightgreen.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/blob/master/phpmd.xml.dist)
+[![PHPCS](https://img.shields.io/badge/PHPCS-PSR12-brightgreen.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/blob/master/phpcs.xml.dist)
+
+
+[![License](https://poser.pugx.org/tjvb/laravel-mail-catchall/license)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 
 ## Why
 The target is to catch all the mail send by Laravel and send it to a configured email adres. We found it usefull to use it for acceptance environments where the client can check all the mail that is send by the application. This also catch the email that is send by a queue runner or an artisan command.
