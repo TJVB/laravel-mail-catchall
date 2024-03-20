@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TJVB\MailCatchall\Tests;
+
+use Illuminate\Foundation\Application;
 
 /**
  * The base TestCase for all the tests we have
@@ -12,7 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Get the custom Service Provider
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      *
      * @return string[]
      */

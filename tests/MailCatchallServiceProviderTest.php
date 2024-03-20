@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TJVB\MailCatchall\Tests;
 
 use TJVB\MailCatchall\MailCatchallServiceProvider;
@@ -11,7 +13,7 @@ use TJVB\MailCatchall\MailCatchallServiceProvider;
  *
  * @group providers
  */
-class MailCatchallServiceProviderTest extends TestCase
+final class MailCatchallServiceProviderTest extends TestCase
 {
     /**
      * It will register the event listener if enabled
@@ -20,12 +22,12 @@ class MailCatchallServiceProviderTest extends TestCase
      */
     public function itWillRegisterTheEventListenerIfEnabled(): void
     {
-        \config(['mailcatchall.enabled' => true]);
+        config(['mailcatchall.enabled' => true]);
         $provider = new MailCatchallServiceProvider($this->app);
         $dispatcher = $this->app['events'];
-        $this->assertFalse($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertFalse($dispatcher->hasListeners(config('mailcatchall.event')));
         $provider->boot();
-        $this->assertTrue($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertTrue($dispatcher->hasListeners(config('mailcatchall.event')));
     }
 
     /**
@@ -35,11 +37,11 @@ class MailCatchallServiceProviderTest extends TestCase
      */
     public function itWillNotRegisterTheEventListenerIfDisabled(): void
     {
-        \config(['mailcatchall.enabled' => false]);
+        config(['mailcatchall.enabled' => false]);
         $provider = new MailCatchallServiceProvider($this->app);
         $dispatcher = $this->app['events'];
-        $this->assertFalse($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertFalse($dispatcher->hasListeners(config('mailcatchall.event')));
         $provider->boot();
-        $this->assertFalse($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertFalse($dispatcher->hasListeners(config('mailcatchall.event')));
     }
 }
