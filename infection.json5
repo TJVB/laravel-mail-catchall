@@ -1,0 +1,17 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "html": "build/infection/log.html",
+        "json": "build/infection/log.json",
+        "text": "build/infection/log.txt",
+        "gitlab": "build/infection/code-climate-gitlab.json"
+    },
+    "mutators": {
+        "@default": true
+    }
+}
