@@ -37,7 +37,7 @@
     ],
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
-        "laravel/framework": "^9.0 || ^10.0",
+        "laravel/framework": "^9.0 || ^10.0 || ^11.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "thecodingmachine/safe": "^2.5"
     },
@@ -46,10 +46,10 @@
         "friendsofphp/php-cs-fixer": "^3.52",
         "infection/infection": "^0.25.6 || ^0.26.0 || ^0.27.0",
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^7.0 || ^8.0",
+        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0",
         "phpmd/phpmd": "^2.13",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^8.0 || ^9.0",
+        "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0",
         "slevomat/coding-standard": "^8.15",
         "squizlabs/php_codesniffer": "^3.9",
         "symplify/easy-coding-standard": "^12.1",
