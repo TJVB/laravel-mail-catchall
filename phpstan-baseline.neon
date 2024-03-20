@@ -1,0 +1,86 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/MailCatcher.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\MailCatcher\\:\\:appendHtmlReceiver\\(\\) has parameter \\$receivers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/MailCatcher.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\MailCatcher\\:\\:appendReceivers\\(\\) has parameter \\$receivers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/MailCatcher.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\MailCatcher\\:\\:appendTextReceiver\\(\\) has parameter \\$receivers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/MailCatcher.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/MailEventSubscriber.php
+
+		-
+			message: "#^Offset 'events' does not exist on Illuminate\\\\Foundation\\\\Application\\|null\\.$#"
+			count: 2
+			path: tests/MailCatchallServiceProviderTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$app of class TJVB\\\\MailCatchall\\\\MailCatchallServiceProvider constructor expects Illuminate\\\\Contracts\\\\Foundation\\\\Application, Illuminate\\\\Foundation\\\\Application\\|null given\\.$#"
+			count: 2
+			path: tests/MailCatchallServiceProviderTest.php
+
+		-
+			message: "#^Cannot call method make\\(\\) on Illuminate\\\\Foundation\\\\Application\\|null\\.$#"
+			count: 2
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\Tests\\\\MailCatcherTest\\:\\:getConfigRepository\\(\\) should return Illuminate\\\\Contracts\\\\Config\\\\Repository but returns mixed\\.$#"
+			count: 1
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\Tests\\\\MailCatcherTest\\:\\:getLoggerMock\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Method TJVB\\\\MailCatchall\\\\Tests\\\\MailCatcherTest\\:\\:getViewFactory\\(\\) should return Illuminate\\\\Contracts\\\\View\\\\Factory but returns mixed\\.$#"
+			count: 1
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringContainsStringIgnoringCase\\(\\) expects string, resource\\|string\\|null given\\.$#"
+			count: 6
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertStringNotContainsStringIgnoringCase\\(\\) expects string, resource\\|string\\|null given\\.$#"
+			count: 1
+			path: tests/MailCatcherTest.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Illuminate\\\\Foundation\\\\Application\\|null\\.$#"
+			count: 2
+			path: tests/MailEventSubscriberTest.php
+
+		-
+			message: "#^Cannot call method hasListeners\\(\\) on mixed\\.$#"
+			count: 2
+			path: tests/MailEventSubscriberTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of class TJVB\\\\MailCatchall\\\\MailEventSubscriber constructor expects Illuminate\\\\Contracts\\\\Config\\\\Repository, mixed given\\.$#"
+			count: 1
+			path: tests/MailEventSubscriberTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$events of method TJVB\\\\MailCatchall\\\\MailEventSubscriber\\:\\:subscribe\\(\\) expects Illuminate\\\\Events\\\\Dispatcher, mixed given\\.$#"
+			count: 1
+			path: tests/MailEventSubscriberTest.php

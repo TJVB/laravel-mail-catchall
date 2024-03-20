@@ -38,16 +38,22 @@
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
         "laravel/framework": "^9.0 || ^10.0",
-        "psr/log": "^1.0 || ^2.0 || ^3.0"
+        "psr/log": "^1.0 || ^2.0 || ^3.0",
+        "thecodingmachine/safe": "^2.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.11",
+        "friendsofphp/php-cs-fixer": "^3.52",
+        "infection/infection": "^0.25.6 || ^0.26.0 || ^0.27.0",
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^8.0 || ^9.0",
-        "squizlabs/php_codesniffer": "^3.2",
-        "vimeo/psalm": "^4.4"
+        "slevomat/coding-standard": "^8.15",
+        "squizlabs/php_codesniffer": "^3.9",
+        "symplify/easy-coding-standard": "^12.1",
+        "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -62,6 +68,10 @@
         }
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true
+        },
         "sort-packages": true
     },
     "extra": {
@@ -72,18 +82,35 @@
         }
     },
     "scripts": {
-        "check-all": [
-            "@format",
-            "@codestyle",
-            "@test-no-coverage",
-            "@psalm",
+        "analyse": [
+            "@phpstan",
             "@phpmd"
         ],
-        "codestyle": "@php vendor/bin/phpcs",
-        "format": "@php vendor/bin/phpcbf",
-        "phpmd": "@php vendor/bin/phpmd src/ text phpmd.xml.dist",
-        "psalm": "@php vendor/bin/psalm",
-        "test": "@php vendor/bin/phpunit",
-        "test-no-coverage": "@php vendor/bin/phpunit --no-coverage"
+        "analyze": "@analyse",
+        "check": [
+            "@cs-fix",
+            "@test-coverage",
+            "@analyse",
+            "@infection"
+        ],
+        "cs": "vendor/bin/ecs",
+        "cs-fix": "vendor/bin/ecs --fix",
+        "infection": "vendor/bin/infection",
+        "phpmd": "vendor/bin/phpmd src/ text phpmd.xml.dist",
+        "phpstan": "vendor/bin/phpstan",
+        "test": "vendor/bin/phpunit --no-coverage",
+        "test-coverage": "vendor/bin/phpunit --coverage-html build/coverage"
+    },
+    "scripts-descriptions": {
+        "analyse": "Run the analyse steps (PHPStan and PHPMD)",
+        "analyze": "See analyse",
+        "check": "Runs @analyse, @cs-fix, @test-coverage and @infection.",
+        "cs": "Check the codestyle with ecs.",
+        "cs-fix": "Check the codestyle with ecs and if possible fix the found issues.",
+        "infection": "Run infection.",
+        "phpmd": "Analyse the code with PHPMD",
+        "phpstan": "Analyse the code with PHPStan.",
+        "test": "Run the PHPUnit tests without coverage.",
+        "test-coverage": "Run the PHPUnit tests with coverage."
     }
 }

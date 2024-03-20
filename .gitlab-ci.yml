@@ -15,6 +15,7 @@ stages:
 prepare_cache:
   stage: prepare
   script:
+    - composer validate
     - composer install
   cache:
     key: "${CI_PROJECT_NAME}"
@@ -29,49 +30,80 @@ prepare_cache:
       - vendor/*
     expire_in: 2 hour
 
-validate:
+lint:
   stage: check
   script:
-    - composer validate
-    - vendor/bin/phpcs --basepath=. --report-json=php_codesniffer.json
-  artifacts:
-    paths:
-      - php_codesniffer.json
-    when: always
-  needs:
-    - prepare_cache
+    # lint recursive
+    - find src/ -type f -name '*.php' -exec php -l {} \; | (! grep -v "No syntax errors detected" )
+  dependencies: []
+
+phpstan:
+  stage: check
+  script:
+    # check for phpstan errors
+    - php -d memory_limit=500M vendor/bin/phpstan analyse --error-format=gitlab | tee phpstan.json
+    - cat phpstan.json
   dependencies:
     - prepare_cache
+  needs:
+    - prepare_cache
+  artifacts:
+    paths:
+      - phpstan.json
+    reports:
+      codequality: phpstan.json
+    when: always
 
 phpmd:
   stage: check
   script:
-    - vendor/bin/phpmd src/ text phpmd.xml.dist
+    - composer phpmd
   needs:
     - prepare_cache
   dependencies:
     - prepare_cache
 
-psalm:
+code-style:
   stage: check
   script:
-    # check for psalm errors
-    - vendor/bin/psalm --report=psalm.json
-  artifacts:
-    paths:
-      - psalm.json
-    when: always
-  needs:
-    - prepare_cache
+    - vendor/bin/ecs
   dependencies:
     - prepare_cache
+  needs:
+    - prepare_cache
 
-# PHP 8.0
+# We check the content with vale
+vale:
+  image:
+    name: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/jdkato/vale
+    entrypoint: [""]
+  stage: check
+  script:
+    - /bin/vale --config=tools/vale/.vale.ini README.md
+  needs: []
+  dependencies: []
+
+infection:
+  image: registry.gitlab.com/tjvb/phpimages:php83
+  stage: test
+  script:
+    - composer install
+    - vendor/bin/infection
+  dependencies:
+    - prepare_cache
+  needs:
+    - prepare_cache
+  artifacts:
+    paths:
+      - build/infection/
+    reports:
+      codequality: build/infection/code-climate-gitlab.json
+    when: always
+
+
 test_lowest:
   parallel:
-    matrix:
-      - PHP: [ 80, 81, 82]
-  image: registry.gitlab.com/tjvb/phpimages:php$PHP
+  image: registry.gitlab.com/tjvb/phpimages:php80
   stage: test
   script:
     - composer update --prefer-lowest

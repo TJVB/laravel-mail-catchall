@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TJVB\MailCatchall;
 
 use Illuminate\Contracts\Config\Repository;
@@ -13,7 +15,7 @@ use Symfony\Component\Mime\Address;
  *
  * @author Tobias van Beek <t.vanbeek@tjvb.nl>
  */
-class MailCatcher
+final class MailCatcher
 {
     /**
      * @var LoggerInterface
@@ -80,7 +82,7 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendReceivers(MessageSending $event, array $receivers): void
+    private function appendReceivers(MessageSending $event, array $receivers): void
     {
         $map = static function (string|Address $receiver): string {
             if ($receiver instanceof Address) {
@@ -107,12 +109,12 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendHtmlReceiver(MessageSending $event, array $receivers): void
+    private function appendHtmlReceiver(MessageSending $event, array $receivers): void
     {
         if (!$this->config->get('mailcatchall.add_receivers_to_html')) {
             return;
         }
-        $body = (string)$event->message->getHtmlBody();
+        $body = (string) $event->message->getHtmlBody();
         $body .= $this->viewFactory->make('mailcatchall::receivers.html')
             ->with('receivers', $receivers)
             ->render();
@@ -127,7 +129,7 @@ class MailCatcher
      *
      * @return void
      */
-    protected function appendTextReceiver(MessageSending $event, array $receivers): void
+    private function appendTextReceiver(MessageSending $event, array $receivers): void
     {
         if (!$this->config->get('mailcatchall.add_receivers_to_text')) {
             return;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TJVB\MailCatchall\Tests;
 
 use Illuminate\Contracts\Config\Repository;
@@ -12,10 +14,10 @@ use TJVB\MailCatchall\MailEventSubscriber;
  *
  * @group subscriber
  */
-class MailEventSubscriverTest extends TestCase
+final class MailEventSubscriberTest extends TestCase
 {
     /**
-     * Test that it will subscrive to the event
+     * Test that it will subscribe to the event
      *
      * @test
      */
@@ -23,8 +25,8 @@ class MailEventSubscriverTest extends TestCase
     {
         $dispatcher = $this->app->get('events');
         $subscriber = new MailEventSubscriber($this->app->get(Repository::class));
-        $this->assertFalse($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertFalse($dispatcher->hasListeners(config('mailcatchall.event')));
         $subscriber->subscribe($dispatcher);
-        $this->assertTrue($dispatcher->hasListeners(\config('mailcatchall.event')));
+        $this->assertTrue($dispatcher->hasListeners(config('mailcatchall.event')));
     }
 }

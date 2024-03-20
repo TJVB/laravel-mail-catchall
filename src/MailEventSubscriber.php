@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TJVB\MailCatchall;
 
 use Illuminate\Contracts\Config\Repository;
@@ -10,7 +12,7 @@ use Illuminate\Events\Dispatcher;
  *
  * @author Tobias van Beek <t.vanbeek@tjvb.nl>
  */
-class MailEventSubscriber
+final class MailEventSubscriber
 {
     /**
      * @var Repository
@@ -25,7 +27,7 @@ class MailEventSubscriber
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param  Dispatcher  $events
      *
      * @return void
      */
