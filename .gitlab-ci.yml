@@ -84,8 +84,10 @@ vale:
   dependencies: []
 
 infection:
+  image: registry.gitlab.com/tjvb/phpimages:php83
   stage: test
   script:
+    - composer install
     - vendor/bin/infection
   dependencies:
     - prepare_cache
