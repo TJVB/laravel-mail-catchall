@@ -72,8 +72,13 @@ final class MailCatchallServiceProvider extends ServiceProvider
         if (!class_exists(AboutCommand::class)) {
             return;
         }
+        $enabled = 'NOT Enabled';
+        if (config('mailcatchall.enabled')) {
+            $enabled = '<fg=yellow;options=bold>ENABLED</>';
+        }
+
         AboutCommand::add('Laravel Mail Catchall', static fn () => [
-            'Enabled' => config('mailcatchall.enabled'),
+            'Enabled' => $enabled,
             'Receiver' => config('mailcatchall.receiver'),
         ]);
     }

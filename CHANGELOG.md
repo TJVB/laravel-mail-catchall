@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+### Changed
+- Change the information in the about command to be more explicit if it is enabled or not.
+
 
 ### 4.4.0 - 2024-03-22
 
