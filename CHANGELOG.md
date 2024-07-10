@@ -12,19 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change the information in the about command to be more explicit if it is enabled or not.
 
 
-### 4.4.0 - 2024-03-22
+## 4.4.0 - 2024-03-22
 
 ### Added
 - Add Laravel 11 support.
 
 
-### 4.3.0 - 2023-11-26
+## 4.3.0 - 2023-11-26
 
 ### Added
 - Support PHP 8.3
 
 
-### 4.2.0 - 2023-02-14
+## 4.2.0 - 2023-02-14
 
 ### Added
 - Add the enabled status and receiver to the Laravel about command if possible.
@@ -46,11 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed support for PHP 7.3 and 7.4
 
 ## [3.2.0] - 2021-12-01
-## Added
+### Added
 - Support PHP 8.1
 
 ## 3.1.0
-## Added
+### Added
 - Support PHP 8.0
 
 ## 3.0.0
@@ -60,18 +60,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use the ViewFactory and Config repository instead of the helper functions.
 - BC break: the Mail Catcher construct signature is changed. 
 
-## Added
+### Added
 - Support Laravel 8
 ### Removed
 - Support Laravel 5.7 - 5.8
 
 ## 2.3.0
-## Added
+### Added
 - Support Laravel 7
 - Tests for PHP 7.4
  
 ## 2.2.0
-## Added
+### Added
 - Support Laravel 6.0
 
 ## 2.1.0
