@@ -9,6 +9,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Mail\Events\MessageSending;
 use Mockery;
+use Mockery\MockInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -425,6 +426,8 @@ final class MailCatcherTest extends TestCase
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
+
+        /** @var MockInterface&MessageSending $eventMock */
         $eventMock = Mockery::mock(MessageSending::class);
 
         $message = new Email();
