@@ -79,7 +79,7 @@ vale:
     entrypoint: [""]
   stage: check
   script:
-    - /bin/vale --config=tools/vale/.vale.ini README.md
+    - /bin/vale --config=tools/vale/.vale.ini README.md CONTRIBUTING.md
   needs: []
   dependencies: []
 
