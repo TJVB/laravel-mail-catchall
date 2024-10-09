@@ -59,7 +59,7 @@ We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for
  4.1                    | 9         | 8.0 - 8.2
  4.2                    | 9 - 10    | 8.0 - 8.2
  4.3                    | 9 - 10    | 8.0 - 8.3
- 4.4                    | 9 - 11    | 8.0 - 8.2
+ 4.4                    | 9 - 11    | 8.0 - 8.3
  
 ## Contributing
 You are welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
