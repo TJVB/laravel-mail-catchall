@@ -34,7 +34,7 @@ Publish the config file with `php artisan vendor:publish --provider="TJVB\MailCa
 
 ## Config
 Set the `MAILCATCHALL_ENABLED` env variable (most used version is to set it in the .env file) to true  
-Set the `MAILCATCHALL_RECEIVER` env variable with the email address if the receiver.
+Set the `MAILCATCHALL_RECEIVER` env variable with the email address of the receiver.
 
 ## Optional config
 You have more options to change in the mailcatchall.php config file. You can enable or disable the appending of the receivers to the HTML or text mails.  
@@ -56,6 +56,10 @@ We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for
  3.1                    | 6 - 8     | 7.3 - 8.0
  3.2                    | 6 - 8     | 7.3 - 8.1
  4.0                    | 9         | 8.0 - 8.1
+ 4.1                    | 9         | 8.0 - 8.2
+ 4.2                    | 9 - 10    | 8.0 - 8.2
+ 4.3                    | 9 - 10    | 8.0 - 8.3
+ 4.4                    | 9 - 11    | 8.0 - 8.2
  
 ## Contributing
 You are welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
