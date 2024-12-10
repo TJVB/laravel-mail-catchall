@@ -87,7 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.0.0
 ### Added
-- Support Laravel 5.8 (see [#4](https://gitlab.com/tjvb/laravel-mail-catchall/issues/4) )
+- Support Laravel 5.8 (see [#4](https://gitlab.com/tjvb/laravel-mail-catchall/-/issues/4) )
 ### Removed
 - Support Laravel 5.0 - 5.6
 - Support PHP 7.0 and 7.1
@@ -96,8 +96,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - exclude test data from the zip for composer
 - move phpunit.xml to phpunit.xml.dist and ignore phpunit.xml to let other people overwrite it with there own configuration
 - Remove phpmd from te require dev part of composer.json and use the phar file to test it
-- Support Laravel 5.7 (see [#1](https://gitlab.com/tjvb/laravel-mail-catchall/issues/1) )
-- Remove the composer.lock file (see [#2](https://gitlab.com/tjvb/laravel-mail-catchall/issues/2) )
+- Support Laravel 5.7 (see [#1](https://gitlab.com/tjvb/laravel-mail-catchall/-/issues/1) )
+- Remove the composer.lock file (see [#2](https://gitlab.com/tjvb/laravel-mail-catchall/-/issues/2) )
 - Change the version contrainces in composer.json to a version with min and max. Allow the different working orchestra/testbench versions
 
 ## 1.0.1

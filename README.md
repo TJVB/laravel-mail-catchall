@@ -60,12 +60,10 @@ We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for
  4.2                    | 9 - 10    | 8.0 - 8.2
  4.3                    | 9 - 10    | 8.0 - 8.3
  4.4                    | 9 - 11    | 8.0 - 8.3
+ 4.5                    | 9 - 11    | 8.0 - 8.4
  
 ## Contributing
 You are welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
-
-## Code of Conduct
-We have a code of conduct, and suspect everybody who want to involve in this project to respect it. [CODE OF CONDUCT](CODE-OF-CONDUCT.md)
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
