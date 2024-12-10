@@ -1,0 +1,11 @@
+# List of links which will be ignored
+ignore-links=["https://gitlab.com/tjvb/base-config/*"]
+
+# List of markup types which shall be checked
+markup-types=["Markdown"]
+
+# List of files and directories which will be ignored
+ignore-path=["./tools", "./vendor"]
+
+# Path to the root folder used to resolve all relative paths
+root-dir="./"

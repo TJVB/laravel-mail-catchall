@@ -163,3 +163,12 @@ test:
     - prepare_cache
   dependencies:
     - prepare_cache
+
+mlc:
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/becheran/mlc
+  stage: check
+  script:
+    # Run mlc to check for broken links: https://github.com/becheran/mlc
+    - mlc doc
+  needs: []
+  dependencies: []
