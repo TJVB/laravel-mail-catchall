@@ -143,12 +143,14 @@ test:
         PHP:
           - 82
           - 83
+          - 84
   image: registry.gitlab.com/tjvb/phpimages:php$PHP
   stage: test
   script:
     - echo "Laravel $LARAVEL"
     - composer require --dev "orchestra/testbench=^$TESTBENCH"
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - vendor/bin/phpunit --migrate-configuration || true
+    - XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
   coverage: '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
