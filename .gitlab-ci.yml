@@ -4,7 +4,7 @@ cache:
     - ~/.composer # cache the composer directory
 
 # set the default docker image
-image: registry.gitlab.com/tjvb/phpimages:php80
+image: registry.gitlab.com/tjvb/phpimages:php83
 
 stages:
   - prepare
