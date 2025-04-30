@@ -1,5 +1,6 @@
 {
-    "name": "tjvb/laravel-mail-catchall",
+    "name": "theupriser/laravel-mail-catchall",
+    "version": "4.6.0",
     "description": "Catch all mail in Laravel and redirect it to a configured email address",
     "license": "MIT",
     "type": "library",
@@ -37,9 +38,9 @@
     ],
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-        "laravel/framework": "^9.0 || ^10.0 || ^11.0",
+        "laravel/framework": "^9.0 || ^10.0 || ^11.0 || ^12.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
-        "thecodingmachine/safe": "^2.5"
+        "thecodingmachine/safe": "^3.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.11",
