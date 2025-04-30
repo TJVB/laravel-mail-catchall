@@ -1,5 +1,5 @@
 {
-    "name": "theupriser/laravel-mail-catchall",
+    "name": "tjvb/laravel-mail-catchall",
     "version": "4.6.0",
     "description": "Catch all mail in Laravel and redirect it to a configured email address",
     "license": "MIT",
