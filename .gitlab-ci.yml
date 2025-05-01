@@ -75,7 +75,7 @@ code-style:
 # We check the content with vale
 vale:
   image:
-    name: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/jdkato/vale
+    name: registry.gitlab.com/tjvb/tools-images/vale
     entrypoint: [""]
   stage: check
   script:
@@ -165,7 +165,7 @@ test:
     - prepare_cache
 
 mlc:
-  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/becheran/mlc
+  image: registry.gitlab.com/tjvb/tools-images/mlc
   stage: check
   script:
     # Run mlc to check for broken links: https://github.com/becheran/mlc
