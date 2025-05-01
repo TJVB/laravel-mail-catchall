@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## 4.6.0 - 2025-05-01
+
+### Added
+- Add Laravel 12 support.
+
+
 ## 4.5.0 - 2024-12-10
 
 ### Added
