@@ -145,7 +145,7 @@ test:
           - 83
           - 84
       - LARAVEL: 12
-        TESTBENCH: 9
+        TESTBENCH: 10
         PHP:
           - 82
           - 83

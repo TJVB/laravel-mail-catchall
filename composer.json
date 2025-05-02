@@ -47,7 +47,7 @@
         "friendsofphp/php-cs-fixer": "^3.52",
         "infection/infection": "^0.25.6 || ^0.26.0 || ^0.27.0 || ^0.28.0 || ^0.29.0",
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0",
+        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0",
         "phpmd/phpmd": "^2.13",
         "phpstan/phpstan": "^1.10 || ^2.0",
         "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0 || ^11.0",
