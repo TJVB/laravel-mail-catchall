@@ -50,9 +50,9 @@ final class MailCatcher
             // this isn't enabled so we do nothing
             return;
         }
-        $receiver = (string) $this->config->get('mailcatchall.receiver');
+        $receiver = $this->config->get('mailcatchall.receiver');
 
-        if (!$receiver) {
+        if (!is_string($receiver)) {
             // there isn't a catch all address configured so we don't need to do anything
             $this->logger->error('We can\'t send the mail because the mailcatchall.receiver config value isn\'t set');
             return;
@@ -86,7 +86,7 @@ final class MailCatcher
     {
         $map = static function (string|Address $receiver): string {
             if ($receiver instanceof Address) {
-                return $receiver->toString();
+                $receiver = $receiver->toString();
             }
             return $receiver;
         };

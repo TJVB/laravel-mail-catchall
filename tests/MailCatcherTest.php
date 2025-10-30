@@ -31,15 +31,10 @@ final class MailCatcherTest extends TestCase
      */
     public function itWillDoNothingIfCatchmailIsNotEnabled(): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
         config(['mailcatchall.enabled' => false]);
 
-        $catcher = new MailCatcher(
-            $this->getLoggerMock(),
-            $this->getViewFactory(),
-            $this->getConfigRepository()
-        );
         $originalTo = $faker->email();
 
         $message = new Email();
@@ -50,13 +45,18 @@ final class MailCatcherTest extends TestCase
 
         $event = new MessageSending($message);
 
+        // run
+        $catcher = new MailCatcher(
+            $this->getLoggerMock(),
+            $this->getViewFactory(),
+            $this->getConfigRepository()
+        );
         $catcher->catchmail($event);
 
+        // verify/assert
         $this->assertNotEmpty($message->getCc());
         $this->assertNotEmpty($message->getBcc());
         $this->assertTo($message, $originalTo);
-
-        config(['mailcatchall.enabled' => $originalConfig]);
     }
 
     /**
@@ -66,18 +66,12 @@ final class MailCatcherTest extends TestCase
      */
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet(): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         config(['mailcatchall.receiver' => null]);
 
         $loggerMock = $this->getLoggerMock();
         $loggerMock->shouldReceive('error')->once();
-        $catcher = new MailCatcher(
-            $loggerMock,
-            $this->getViewFactory(),
-            $this->getConfigRepository()
-        );
         $originalTo = $faker->email();
 
         $message = new Email();
@@ -88,14 +82,55 @@ final class MailCatcherTest extends TestCase
 
         $event = new MessageSending($message);
 
+        // run
+        $catcher = new MailCatcher(
+            $loggerMock,
+            $this->getViewFactory(),
+            $this->getConfigRepository()
+        );
         $catcher->catchmail($event);
 
+        // verify/assert
         $this->assertNotEmpty($message->getCc());
         $this->assertNotEmpty($message->getBcc());
         $this->assertTo($message, $originalTo);
+    }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+    /**
+     * Test that it will do nothing if catchmail isn't enabled
+     *
+     * @test
+     */
+    public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsInvalid(): void
+    {
+        // setup / mock
+        $faker = Factory::create();
+        config(['mailcatchall.receiver' => [123]]);
+
+        $loggerMock = $this->getLoggerMock();
+        $loggerMock->shouldReceive('error')->once();
+        $originalTo = $faker->email();
+
+        $message = new Email();
+        $message->to($originalTo);
+        $message->text($faker->text());
+        $message->addCc($faker->email());
+        $message->addBcc($faker->email());
+
+        $event = new MessageSending($message);
+
+        //run
+        $catcher = new MailCatcher(
+            $loggerMock,
+            $this->getViewFactory(),
+            $this->getConfigRepository()
+        );
+        $catcher->catchmail($event);
+
+        // verify/assert
+        $this->assertNotEmpty($message->getCc());
+        $this->assertNotEmpty($message->getBcc());
+        $this->assertTo($message, $originalTo);
     }
 
     /**
@@ -105,29 +140,25 @@ final class MailCatcherTest extends TestCase
      */
     public function itWillSetTheReceiverInTheTo(): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
 
+        $message = new Email();
+        $message->text($faker->text);
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->text($faker->text);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
+        // verify/assert
         $this->assertTo($message, $receiver);
-
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
     }
 
     /**
@@ -137,30 +168,28 @@ final class MailCatcherTest extends TestCase
      */
     public function itWillRemoveTheCcReceivers(): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
-
-        $catcher = new MailCatcher(
-            $this->getLoggerMock(),
-            $this->getViewFactory(),
-            $this->getConfigRepository()
-        );
 
         $message = new Email();
         $message->cc($faker->email);
 
         $event = new MessageSending($message);
 
+        // run
+        $catcher = new MailCatcher(
+            $this->getLoggerMock(),
+            $this->getViewFactory(),
+            $this->getConfigRepository()
+        );
         $catcher->catchmail($event);
+
+        // verify/assert
         $this->assertEmpty($message->getBcc());
         $this->assertEmpty($message->getCc());
         $this->assertTo($message, $receiver);
-
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
     }
 
     /**
@@ -170,17 +199,10 @@ final class MailCatcherTest extends TestCase
      */
     public function itWillRemoveTheBccReceivers(): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
-
-        $catcher = new MailCatcher(
-            $this->getLoggerMock(),
-            $this->getViewFactory(),
-            $this->getConfigRepository()
-        );
 
         $message = new Email();
         $message->text($faker->text);
@@ -188,260 +210,348 @@ final class MailCatcherTest extends TestCase
 
         $event = new MessageSending($message);
 
+        // run
+        $catcher = new MailCatcher(
+            $this->getLoggerMock(),
+            $this->getViewFactory(),
+            $this->getConfigRepository()
+        );
         $catcher->catchmail($event);
 
+        // verify/assert
         $this->assertEmpty($message->getBcc());
         $this->assertTo($message, $receiver);
-
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
     }
 
     /**
      * Test that the to is set in the text view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalToInTextView(): void
+    public function itWillAddOriginalToInTextView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalTo = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
+        $message = new Email();
+        $message->text($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->to(...$originalReceiver);
+        } else {
+            $message->to($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->text($faker->text);
-        $message->to($originalTo);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getTextBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getTextBody());
     }
 
     /**
      * Test that the to is set in the html view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalToInHtmlView(): void
+    public function itWillAddOriginalToInHtmlView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalTo = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
+        $message = new Email();
+        $message->html($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->to(...$originalReceiver);
+        } else {
+            $message->to($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->html($faker->text);
-        $message->to($originalTo);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalTo, $message->getHtmlBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getHtmlBody());
     }
 
     /**
      * Test that the to is not set in the html view if disabled
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillNotAddOriginalToInHtmlViewIfDisabled(): void
+    public function itWillNotAddOriginalToInHtmlViewIfDisabled(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalTo = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
 
+        $message = new Email();
+        $message->html($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->to(...$originalReceiver);
+        } else {
+            $message->to($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->html($faker->text);
-        $message->to($originalTo);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringNotContainsStringIgnoringCase($originalTo, $message->getHtmlBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+        $this->assertStringNotContainsStringIgnoringCase($originalReceiver, $message->getHtmlBody());
     }
 
     /**
      * Test that the cc is set in the text view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalCcInTextView(): void
+    public function itWillAddOriginalCcInTextView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalCC = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
+        $message = new Email();
+        $message->text($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->cc(...$originalReceiver);
+        } else {
+            $message->cc($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->text($faker->text);
-        $message->cc($originalCC);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getTextBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getTextBody());
     }
 
     /**
      * Test that the cc is set in the html view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalCcInHtmlView(): void
+    public function itWillAddOriginalCcInHtmlView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalCC = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
+        $message = new Email();
+        $message->html($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->cc(...$originalReceiver);
+        } else {
+            $message->cc($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->html($faker->text);
-        $message->cc($originalCC);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalCC, $message->getHtmlBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getHtmlBody());
     }
 
     /**
      * Test that the bcc is set in the text view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalBccInTextView(): void
+    public function itWillAddOriginalBccInTextView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalBcc = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
+        $message = new Email();
+        $message->text($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->bcc(...$originalReceiver);
+        } else {
+            $message->bcc($originalReceiver);
+        }
+
+        $event = new MessageSending($message);
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        $message = new Email();
-        $message->text($faker->text);
-        $message->bcc($originalBcc);
-
-        $event = new MessageSending($message);
-
         $catcher->catchmail($event);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getTextBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getTextBody());
     }
 
     /**
      * Test that the bcc is set in the html view
      *
      * @test
+     * @param string|array<string>|Address $originalReceiver
+     * @dataProvider originalReceiverProvider
      */
-    public function itWillAddOriginalBccInHtmlView(): void
+    public function itWillAddOriginalBccInHtmlView(string|array|Address $originalReceiver): void
     {
+        // setup / mock
         $faker = Factory::create();
-        $originalConfig = config('mailcatchall.enabled');
-        $originalReceiver = config('mailcatchall.receiver');
         $receiver = $faker->email;
-        $originalBcc = $faker->email;
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
+        $message = new Email();
+        $message->html($faker->text);
+        if (is_array($originalReceiver)) {
+            $message->bcc(...$originalReceiver);
+        } else {
+            $message->bcc($originalReceiver);
+        }
+
+        /** @var MockInterface&MessageSending $eventMock */
+        $eventMock = Mockery::mock(MessageSending::class);
+        $eventMock->message = $message;
+
+        // run
         $catcher = new MailCatcher(
             $this->getLoggerMock(),
             $this->getViewFactory(),
             $this->getConfigRepository()
         );
-
-        /** @var MockInterface&MessageSending $eventMock */
-        $eventMock = Mockery::mock(MessageSending::class);
-
-        $message = new Email();
-        $message->html($faker->text);
-        $message->bcc($originalBcc);
-
-        $eventMock->message = $message;
-
         $catcher->catchmail($eventMock);
 
-        $this->assertStringContainsStringIgnoringCase($originalBcc, $message->getHtmlBody());
+        // verify/assert
+        if (is_array($originalReceiver)) {
+            $originalReceiver = $originalReceiver[0];
+        }
 
-        config(['mailcatchall.enabled' => $originalConfig]);
-        config(['mailcatchall.receiver' => $originalReceiver]);
+        if ($originalReceiver instanceof Address) {
+            $originalReceiver = $originalReceiver->getAddress();
+        }
+        $this->assertStringContainsStringIgnoringCase($originalReceiver, $message->getHtmlBody());
+    }
+
+    /**
+     * @return array<array-key,array<string|array<string>|Address>>
+     */
+    public static function originalReceiverProvider(): array
+    {
+        $faker = Factory::create();
+        return [
+            'email' => [
+                $faker->email
+            ],
+            'email array' => [
+                [$faker->email]
+            ],
+            'address class' => [
+                new Address($faker->email),
+            ],
+        ];
     }
 
     /**
