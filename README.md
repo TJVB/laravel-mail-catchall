@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 [![Pipeline status](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/pipeline.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
 [![Coverage report](https://gitlab.com/tjvb/laravel-mail-catchall/badges/master/coverage.svg)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
-[![Tested on PHP 8.0 to 8.4](https://img.shields.io/badge/Tested%20on-PHP%208.0%20|%208.1%20|%208.2%20|%208.3%20|%208.4-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Tested on PHP 8.0 to 8.5](https://img.shields.io/badge/Tested%20on-PHP%208.0%20|%208.1%20|%208.2%20|%208.3%20|%208.4%20|%208.5-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
 [![Tested on Laravel 9 to 12](https://img.shields.io/badge/Tested%20on-Laravel%209%20|%2010%20|%2011%20|%2012-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
 [![Latest Unstable Version](https://poser.pugx.org/tjvb/laravel-mail-catchall/v/unstable)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
 
@@ -62,6 +62,7 @@ We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for
  4.4                    | 9 - 11    | 8.0 - 8.3
  4.5                    | 9 - 11    | 8.0 - 8.4
  4.6                    | 9 - 12    | 8.0 - 8.4
+ 4.7                    | 9 - 12    | 8.0 - 8.5
  
 ## Contributing
 You are welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
