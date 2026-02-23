@@ -1,6 +1,6 @@
 {
     "name": "tjvb/laravel-mail-catchall",
-    "version": "4.6.0",
+    "version": "4.7.0",
     "description": "Catch all mail in Laravel and redirect it to a configured email address",
     "license": "MIT",
     "type": "library",
