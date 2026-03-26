@@ -10,6 +10,8 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Mail\Events\MessageSending;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -29,6 +31,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillDoNothingIfCatchmailIsNotEnabled(): void
     {
         // setup / mock
@@ -64,6 +67,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet(): void
     {
         // setup / mock
@@ -101,6 +105,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsInvalid(): void
     {
         // setup / mock
@@ -138,15 +143,16 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillSetTheReceiverInTheTo(): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
 
         $message = new Email();
-        $message->text($faker->text);
+        $message->text($faker->text());
         $event = new MessageSending($message);
 
         // run
@@ -166,15 +172,16 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRemoveTheCcReceivers(): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
 
         $message = new Email();
-        $message->cc($faker->email);
+        $message->cc($faker->email());
 
         $event = new MessageSending($message);
 
@@ -197,16 +204,17 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRemoveTheBccReceivers(): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
 
         $message = new Email();
-        $message->text($faker->text);
-        $message->addBcc($faker->email);
+        $message->text($faker->text());
+        $message->addBcc($faker->email());
 
         $event = new MessageSending($message);
 
@@ -230,16 +238,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalToInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
         $message = new Email();
-        $message->text($faker->text);
+        $message->text($faker->text());
         if (is_array($originalReceiver)) {
             $message->to(...$originalReceiver);
         } else {
@@ -274,16 +284,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalToInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
         $message = new Email();
-        $message->html($faker->text);
+        $message->html($faker->text());
         if (is_array($originalReceiver)) {
             $message->to(...$originalReceiver);
         } else {
@@ -318,15 +330,17 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillNotAddOriginalToInHtmlViewIfDisabled(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
 
         $message = new Email();
-        $message->html($faker->text);
+        $message->html($faker->text());
         if (is_array($originalReceiver)) {
             $message->to(...$originalReceiver);
         } else {
@@ -361,16 +375,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalCcInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
         $message = new Email();
-        $message->text($faker->text);
+        $message->text($faker->text());
         if (is_array($originalReceiver)) {
             $message->cc(...$originalReceiver);
         } else {
@@ -406,16 +422,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalCcInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
         $message = new Email();
-        $message->html($faker->text);
+        $message->html($faker->text());
         if (is_array($originalReceiver)) {
             $message->cc(...$originalReceiver);
         } else {
@@ -451,16 +469,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalBccInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_text' => true]);
 
         $message = new Email();
-        $message->text($faker->text);
+        $message->text($faker->text());
         if (is_array($originalReceiver)) {
             $message->bcc(...$originalReceiver);
         } else {
@@ -496,16 +516,18 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
+    #[DataProvider('originalReceiverProvider')]
     public function itWillAddOriginalBccInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock
         $faker = Factory::create();
-        $receiver = $faker->email;
+        $receiver = $faker->email();
         config(['mailcatchall.receiver' => $receiver]);
         config(['mailcatchall.add_receivers_to_html' => true]);
 
         $message = new Email();
-        $message->html($faker->text);
+        $message->html($faker->text());
         if (is_array($originalReceiver)) {
             $message->bcc(...$originalReceiver);
         } else {
@@ -543,13 +565,13 @@ final class MailCatcherTest extends TestCase
         $faker = Factory::create();
         return [
             'email' => [
-                $faker->email
+                $faker->email()
             ],
             'email array' => [
-                [$faker->email]
+                [$faker->email()]
             ],
             'address class' => [
-                new Address($faker->email),
+                new Address($faker->email()),
             ],
         ];
     }

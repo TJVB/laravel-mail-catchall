@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\MailCatchall\Tests;
 
 use Illuminate\Contracts\Config\Repository;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\MailCatchall\MailEventSubscriber;
 
 /**
@@ -21,6 +22,7 @@ final class MailEventSubscriberTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillSubscribeToTheEvent(): void
     {
         $dispatcher = $this->app->get('events');

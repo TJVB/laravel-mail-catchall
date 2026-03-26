@@ -6,6 +6,7 @@ namespace TJVB\MailCatchall\Tests;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Mail\Events\MessageSending;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\MailCatchall\MailCatchallServiceProvider;
 
 /**
@@ -22,6 +23,7 @@ final class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRegisterTheEventListenerIfEnabled(): void
     {
         config(['mailcatchall.enabled' => true]);
@@ -39,6 +41,7 @@ final class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillNotRegisterTheEventListenerIfDisabled(): void
     {
         config(['mailcatchall.enabled' => false]);
