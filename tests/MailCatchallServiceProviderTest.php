@@ -6,6 +6,7 @@ namespace TJVB\MailCatchall\Tests;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Mail\Events\MessageSending;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\MailCatchall\MailCatchallServiceProvider;
 
 /**
