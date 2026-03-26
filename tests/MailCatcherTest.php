@@ -29,6 +29,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillDoNothingIfCatchmailIsNotEnabled(): void
     {
         // setup / mock
@@ -64,6 +65,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsSet(): void
     {
         // setup / mock
@@ -101,6 +103,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillLogAnErrorIfCatchmailIsEnabledButNoReceiverIsInvalid(): void
     {
         // setup / mock
@@ -138,6 +141,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillSetTheReceiverInTheTo(): void
     {
         // setup / mock
@@ -166,6 +170,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRemoveTheCcReceivers(): void
     {
         // setup / mock
@@ -197,6 +202,7 @@ final class MailCatcherTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRemoveTheBccReceivers(): void
     {
         // setup / mock
@@ -230,6 +236,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalToInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -274,6 +281,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalToInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -318,6 +326,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillNotAddOriginalToInHtmlViewIfDisabled(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -361,6 +370,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalCcInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -406,6 +416,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalCcInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -451,6 +462,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalBccInTextView(string|array|Address $originalReceiver): void
     {
         // setup / mock
@@ -496,6 +508,7 @@ final class MailCatcherTest extends TestCase
      * @param string|array<string>|Address $originalReceiver
      * @dataProvider originalReceiverProvider
      */
+    #[Test]
     public function itWillAddOriginalBccInHtmlView(string|array|Address $originalReceiver): void
     {
         // setup / mock

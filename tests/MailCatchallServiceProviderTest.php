@@ -22,6 +22,7 @@ final class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillRegisterTheEventListenerIfEnabled(): void
     {
         config(['mailcatchall.enabled' => true]);
@@ -39,6 +40,7 @@ final class MailCatchallServiceProviderTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillNotRegisterTheEventListenerIfDisabled(): void
     {
         config(['mailcatchall.enabled' => false]);

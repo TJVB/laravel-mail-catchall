@@ -21,6 +21,7 @@ final class MailEventSubscriberTest extends TestCase
      *
      * @test
      */
+    #[Test]
     public function itWillSubscribeToTheEvent(): void
     {
         $dispatcher = $this->app->get('events');
